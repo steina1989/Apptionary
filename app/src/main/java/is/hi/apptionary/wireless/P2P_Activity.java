@@ -26,7 +26,7 @@ public class P2P_Activity extends AppCompatActivity {
     WifiP2pManager mManager;
     private final IntentFilter mIntentFilter = new IntentFilter();
     BroadcastReceiver mReceiver;
-
+    WifiP2pConfig config = new WifiP2pConfig();
     Collection<WifiP2pDevice> deviceList;
 
 
@@ -59,32 +59,18 @@ public class P2P_Activity extends AppCompatActivity {
             public void onPeersAvailable(WifiP2pDeviceList peers) {
                 Log.d("onPeersAvailable", peers.toString());
                 deviceList = peers.getDeviceList();
-                for (Iterator<WifiP2pDevice> d = deviceList.iterator(); d.hasNext();) {
+                for (Iterator<WifiP2pDevice> d = deviceList.iterator(); d.hasNext(); ) {
 
                     WifiP2pDevice device = d.next();
-                    WifiP2pConfig config = new WifiP2pConfig();
                     config.deviceAddress = device.deviceAddress;
 
                 }
 
-                }
-        });
-
-
-        WifiP2pConfig config = new WifiP2pConfig();
-
-        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
-
-            @Override
-            public void onSuccess() {
-                //success logic
-            }
-
-            @Override
-            public void onFailure(int reason) {
-                //failure logic
             }
         });
+
+
+    }
 
 
     public void sendWifiData(CharSequence s){
