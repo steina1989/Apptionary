@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collection;
@@ -28,6 +30,7 @@ public class P2P_Activity extends AppCompatActivity {
     BroadcastReceiver mReceiver;
     WifiP2pConfig config = new WifiP2pConfig();
     Collection<WifiP2pDevice> deviceList;
+    TextView listOfPeers;
 
 
     @Override
@@ -35,6 +38,8 @@ public class P2P_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p2p_testing);
         testButtonSetup();
+        listOfPeers=findViewById(R.id.listOfPeers);
+
         P2P.addActionsToP2P(mIntentFilter);
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
@@ -61,7 +66,9 @@ public class P2P_Activity extends AppCompatActivity {
                 deviceList = peers.getDeviceList();
                 for (Iterator<WifiP2pDevice> d = deviceList.iterator(); d.hasNext(); ) {
 
+
                     WifiP2pDevice device = d.next();
+                    listOfPeers.setText(device.deviceName + "  " + device.deviceAddress + "\n");
                     config.deviceAddress = device.deviceAddress;
 
                 }
