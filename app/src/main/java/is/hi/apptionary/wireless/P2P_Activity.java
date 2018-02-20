@@ -3,12 +3,15 @@ package is.hi.apptionary.wireless;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import is.hi.apptionary.R;
+
 
 
 public class P2P_Activity extends AppCompatActivity {
@@ -32,18 +35,21 @@ public class P2P_Activity extends AppCompatActivity {
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
             public void onSuccess() {
-                Context context = getApplicationContext();
-                CharSequence text = "Someone connected";
-                int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+                Log.d("mManager", "Successfully discovered a peer.");
 
             }
 
             @Override
             public void onFailure(int reasonCode) {
 
+            }
+        });
+
+        mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
+            @Override
+            public void onPeersAvailable(WifiP2pDeviceList peers) {
+                Log.d("onPeersAvailable", peers.toString());
             }
         });
 
