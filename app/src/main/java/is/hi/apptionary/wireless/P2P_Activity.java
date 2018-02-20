@@ -10,6 +10,8 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Collection;
@@ -32,7 +34,7 @@ public class P2P_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_p2p_testing);
-
+        testButtonSetup();
         P2P.addActionsToP2P(mIntentFilter);
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
@@ -85,8 +87,24 @@ public class P2P_Activity extends AppCompatActivity {
         });
 
 
+    public void sendWifiData(CharSequence s){
 
-    
+    }
+
+    public void testButtonSetup(){
+        Button one = (Button)findViewById(R.id.button2);
+        Button two = (Button)findViewById(R.id.button3);
+        Button[] buttons = new Button[]{one,two};
+        for(int i = 0; i<2; i++){
+            buttons[i].setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    Button b = (Button) v;
+                  sendWifiData(b.getText());
+
+                }
+            });
+        }
+    }
 
     /* register the broadcast receiver with the intent values to be matched */
     @Override
