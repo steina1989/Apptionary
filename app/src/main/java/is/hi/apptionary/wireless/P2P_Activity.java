@@ -82,6 +82,8 @@ public class P2P_Activity extends AppCompatActivity {
 
     public void sendWifiData(CharSequence s){
 
+
+
     }
 
     public void testButtonSetup(){
