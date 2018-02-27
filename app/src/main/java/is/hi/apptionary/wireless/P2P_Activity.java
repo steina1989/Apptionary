@@ -37,20 +37,36 @@ public class P2P_Activity extends AppCompatActivity {
     }
 
     public void requestPeers() {
-        mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
+
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
             @Override
-            public void onPeersAvailable(WifiP2pDeviceList peers) {
-                Collection<WifiP2pDevice> deviceList= peers.getDeviceList();
-                if (deviceList.size() == 0) {
-                    Log.d(p2pTag, "Size of peer devicelist empty");
-                    return;
-                }
-                updatePeerList(peers);
-                WifiP2pDevice device = deviceList.iterator().next();
-                connect(device);
+            public void onSuccess() {
+                mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
+                    @Override
+                    public void onPeersAvailable(WifiP2pDeviceList peers) {
+                        Collection<WifiP2pDevice> deviceList= peers.getDeviceList();
+                        if (deviceList.size() == 0) {
+                            Log.d(p2pTag, "Size of peer devicelist empty");
+                            return;
+                        }
+                        updatePeerList(peers);
+                        WifiP2pDevice device = deviceList.iterator().next();
+                        connect(device);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(int reason) {
+
             }
         });
+
+
     }
+
+
 
     public void connect(WifiP2pDevice device) {
         WifiP2pConfig config = new WifiP2pConfig();
