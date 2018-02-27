@@ -10,6 +10,7 @@ import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pManager;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Collection;
 
@@ -208,6 +210,40 @@ public class P2P_Activity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public static class ServerThread extends AsyncTask {
+        protected Object doInBackground(Object[] objects) {
+            int inputStreamStatus;
+
+            /**
+             * Create a server socket and wait for client connections. This
+             * call blocks until a connection is accepted from a client
+             */
+            ServerSocket serverSocket = null;
+            try {
+                serverSocket = new ServerSocket(8888);
+                Socket client = serverSocket.accept();
+                InputStream inputstream = client.getInputStream();
+                while(true){
+                    inputStreamStatus=inputstream.read();
+                    Log.d("P2PStream", String.valueOf(inputStreamStatus));
+                    if(inputStreamStatus<0){
+                        break;
+                    }
+                }
+
+                serverSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return 1;
+        }
+
+
+
     }
 
 }
