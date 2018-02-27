@@ -41,6 +41,7 @@ public class P2P_Activity extends AppCompatActivity {
         mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
             @Override
             public void onGroupInfoAvailable(WifiP2pGroup group) {
+
                 Log.d(p2pTag + "groupinfo", group.getOwner().toString());
             }
         });
@@ -116,12 +117,14 @@ public class P2P_Activity extends AppCompatActivity {
             }
         });
 
+
+
         Button rightButton = (Button) findViewById(R.id.button2);
-        rightButton.setText("jarb");
+        rightButton.setText("groupinfo");
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getGroupInfo();
             }
         });
 }
@@ -138,6 +141,12 @@ public class P2P_Activity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiver);
+    }
+
+    @Override
+    protected void onDestroy(){
+        // TO do disconnect wifidirect.
+        super.onDestroy();
     }
 
 
