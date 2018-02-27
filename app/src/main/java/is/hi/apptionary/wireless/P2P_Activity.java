@@ -36,6 +36,17 @@ public class P2P_Activity extends AppCompatActivity {
         mReceiver = new WifiDirectBroadcastReceiver(mManager, mChannel, this);
     }
 
+    public void getGroupInfo(){
+
+        mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+            @Override
+            public void onGroupInfoAvailable(WifiP2pGroup group) {
+                Log.d(p2pTag + "groupinfo", group.getOwner().toString());
+            }
+        });
+
+
+    }
     public void requestPeers() {
 
         mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
@@ -46,7 +57,7 @@ public class P2P_Activity extends AppCompatActivity {
                     public void onPeersAvailable(WifiP2pDeviceList peers) {
                         Collection<WifiP2pDevice> deviceList= peers.getDeviceList();
                         if (deviceList.size() == 0) {
-                            Log.d(p2pTag, "Size of peer devicelist empty");
+                            Log.d(p2pTag, "Size of peer devicelist 0");
                             return;
                         }
                         updatePeerList(peers);
@@ -71,18 +82,12 @@ public class P2P_Activity extends AppCompatActivity {
     public void connect(WifiP2pDevice device) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
-
+        config.groupOwnerIntent = 15;
         mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
 
             @Override
             public void onSuccess() {
                 Log.d(p2pTag, "Connection successful");
-                mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
-                    @Override
-                    public void onGroupInfoAvailable(WifiP2pGroup group) {
-                        Log.d(p2pTag + "groupinfo", group.getOwner().toString());
-                    }
-                });
             }
 
             @Override
