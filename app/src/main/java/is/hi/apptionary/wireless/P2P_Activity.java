@@ -1,8 +1,10 @@
 package is.hi.apptionary.wireless;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pDeviceList;
@@ -13,6 +15,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Collection;
 
 import is.hi.apptionary.R;
@@ -23,6 +32,7 @@ public class P2P_Activity extends AppCompatActivity {
     private final IntentFilter mIntentFilter = new IntentFilter();
     BroadcastReceiver mReceiver;
     String p2pTag = "P2p";
+    String mServerAddress;
 
 
     @Override
@@ -63,7 +73,9 @@ public class P2P_Activity extends AppCompatActivity {
                         }
                         updatePeerList(peers);
                         WifiP2pDevice device = deviceList.iterator().next();
+                        mServerAddress = device.deviceAddress;
                         connect(device);
+
                     }
                 });
 
@@ -83,7 +95,6 @@ public class P2P_Activity extends AppCompatActivity {
     public void connect(WifiP2pDevice device) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
-        config.groupOwnerIntent = 15;
         mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
 
             @Override
@@ -120,11 +131,11 @@ public class P2P_Activity extends AppCompatActivity {
 
 
         Button rightButton = (Button) findViewById(R.id.button2);
-        rightButton.setText("groupinfo");
+        rightButton.setText("receive data from server");
         rightButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getGroupInfo();
+                clientListen();
             }
         });
 }
@@ -146,8 +157,58 @@ public class P2P_Activity extends AppCompatActivity {
     @Override
     protected void onDestroy(){
         // TO do disconnect wifidirect.
+
         super.onDestroy();
     }
 
+    // Attempt to received data through socket
+    public void clientListen(){
+        Context context = this.getApplicationContext();
+        String host = mServerAddress;
+        int port = 8888;
+        int len;
+        Socket socket = new Socket();
+        byte buf[]  = new byte[1024];
+
+        try {
+            /**
+             * Create a client socket with the host,
+             * port, and timeout information.
+             */
+            socket.bind(null);
+            socket.connect((new InetSocketAddress(host, port)), 500);
+
+            /**
+             * Create a byte stream from a JPEG file and pipe it to the output stream
+             * of the socket. This data will be retrieved by the server device.
+             */
+            OutputStream outputStream = socket.getOutputStream();
+
+
+            outputStream.write(42);
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            //catch logic
+        } catch (IOException e) {
+            //catch logic
+        }
+
+/**
+ * Clean up any open sockets when done
+ * transferring or if an exception occurred.
+ */
+        finally {
+            if (socket != null) {
+                if (socket.isConnected()) {
+                    try {
+                        socket.close();
+                    } catch (IOException e) {
+                        //catch logic
+                    }
+                }
+            }
+        }
+    }
 
 }
+
