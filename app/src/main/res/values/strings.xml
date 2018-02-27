@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Apptionary</string>
+    <string name="lets_goBtn">LETS GO</string>
+    <string name="pick_a_nickname">Pick a nickname</string>
+    <string name="continueBtn">Continue</string>
+    <string name="create_a_game">Create a game</string>
+    <string name="join_a_game">Join a game</string>
+    <string name="credits">Credits</string>
+    <string name="start_game">Start game</string>
 </resources>
