@@ -13,21 +13,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-
 import java.util.Collection;
-import java.util.Iterator;
 
 import is.hi.apptionary.R;
-
-
 
 public class P2P_Activity extends AppCompatActivity {
     WifiP2pManager.Channel mChannel;
     WifiP2pManager mManager;
     private final IntentFilter mIntentFilter = new IntentFilter();
     BroadcastReceiver mReceiver;
-    WifiP2pConfig config = new WifiP2pConfig();
-    Collection<WifiP2pDevice> deviceList;
     String p2pTag = "P2p";
 
 
@@ -40,83 +34,76 @@ public class P2P_Activity extends AppCompatActivity {
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new WifiDirectBroadcastReceiver(mManager, mChannel, this);
+    }
 
-
-
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
-            @Override
-            public void onSuccess() {
-
-                Log.d(p2pTag, "Successfully discovered a peer.");
-
-            }
-
-            @Override
-            public void onFailure(int reasonCode) {
-
-            }
-        });
-
-
+    public void requestPeers() {
         mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
             @Override
             public void onPeersAvailable(WifiP2pDeviceList peers) {
-                if (peers.getDeviceList().size()== 0){
+                Collection<WifiP2pDevice> deviceList= peers.getDeviceList();
+                if (deviceList.size() == 0) {
                     Log.d(p2pTag, "Size of peer devicelist empty");
                     return;
                 }
-                Log.d("onPeersAvailable", peers.toString());
-                WifiP2pDevice device =  peers.getDeviceList().iterator().next();
-                WifiP2pConfig config = new WifiP2pConfig();
-                config.deviceAddress = device.deviceAddress;
-                mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+                updatePeerList(peers);
+                WifiP2pDevice device = deviceList.iterator().next();
+                connect(device);
+            }
+        });
+    }
 
-                    @Override
-                    public void onSuccess() {
-                        Log.d(p2pTag,"Connection successful");
-                        mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
-                            @Override
-                            public void onGroupInfoAvailable(WifiP2pGroup group) {
-                                Log.d(p2pTag,group.getOwner().toString());
-                            }
-                        });
-                    }
+    public void connect(WifiP2pDevice device) {
+        WifiP2pConfig config = new WifiP2pConfig();
+        config.deviceAddress = device.deviceAddress;
 
+        mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
+
+            @Override
+            public void onSuccess() {
+                Log.d(p2pTag, "Connection successful");
+                mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
                     @Override
-                    public void onFailure(int reason) {
-                        //failure logic
+                    public void onGroupInfoAvailable(WifiP2pGroup group) {
+                        Log.d(p2pTag + "groupinfo", group.getOwner().toString());
                     }
                 });
+            }
 
-
+            @Override
+            public void onFailure(int reason) {
+                //failure logic
             }
         });
 
+    }
 
+    public void updatePeerList(WifiP2pDeviceList deviceList) {
+        // Uppfæra viðmót lista með tækjum
+    }
+
+    public void sendWifiData(CharSequence s) {
 
     }
 
+    public void testButtonSetup() {
+        Button leftButton = (Button) findViewById(R.id.button3);
+        leftButton.setText("RequestPeers()");
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestPeers();
+            }
+        });
 
-    public void sendWifiData(CharSequence s){
+        Button rightButton = (Button) findViewById(R.id.button2);
+        rightButton.setText("jarb");
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-
-
-    }
-
-    public void testButtonSetup(){
-        Button one = (Button)findViewById(R.id.button2);
-        Button two = (Button)findViewById(R.id.button3);
-        Button[] buttons = new Button[]{one,two};
-        for(int i = 0; i<2; i++){
-            buttons[i].setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Button b = (Button) v;
-                  sendWifiData(b.getText());
-
-                }
-            });
-        }
-    }
+            }
+        });
+}
 
     /* register the broadcast receiver with the intent values to be matched */
     @Override
@@ -124,15 +111,13 @@ public class P2P_Activity extends AppCompatActivity {
         super.onResume();
         registerReceiver(mReceiver, mIntentFilter);
     }
+
     /* unregister the broadcast receiver */
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mReceiver);
     }
-
-
-
 
 
 }
