@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.AsyncTask;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,64 +40,73 @@ public class P2P_Activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+
+        StrictMode.setThreadPolicy(policy);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_p2p_testing);
         testButtonSetup();
         P2P.addActionsToP2P(mIntentFilter);
         mManager = (WifiP2pManager) getSystemService(Context.WIFI_P2P_SERVICE);
         mChannel = mManager.initialize(this, getMainLooper(), null);
         mReceiver = new WifiDirectBroadcastReceiver(mManager, mChannel, this);
+
+
+        // Initiate the peer discovery. NOTE: Only initiating.
+        // Discovery remains active until a connection is initiated or a P2P group is formed.
+        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+
+            @Override
+            public void onSuccess() {
+                // Code for when the discovery initiation is successful goes here.
+                // No services have actually been discovered yet, so this method
+                // can often be left blank.
+                Log.d("discoverpeers", "Discovery initation successful");
+                requestPeers();
+            }
+
+            @Override
+            public void onFailure(int reasonCode) {
+                // Code for when the discovery initiation fails goes here.
+                // Alert the user that something went wrong.
+                Log.d("discoverpeers", "Discovery initation NOT successful");
+
+            }
+        });
+
     }
 
-    public void getGroupInfo(){
-
+    public void getGroupInfo() {
         mManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
             @Override
             public void onGroupInfoAvailable(WifiP2pGroup group) {
-
                 Log.d(p2pTag + "groupinfo", group.getOwner().toString());
             }
         });
-
-
     }
+
     public void requestPeers() {
-
-        mManager.discoverPeers(mChannel, new WifiP2pManager.ActionListener() {
+        mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
             @Override
-            public void onSuccess() {
-                mManager.requestPeers(mChannel, new WifiP2pManager.PeerListListener() {
-                    @Override
-                    public void onPeersAvailable(WifiP2pDeviceList peers) {
-                        Collection<WifiP2pDevice> deviceList= peers.getDeviceList();
-                        if (deviceList.size() == 0) {
-                            Log.d(p2pTag, "Size of peer devicelist 0");
-                            return;
-                        }
-                        updatePeerList(peers);
-                        WifiP2pDevice device = deviceList.iterator().next();
-                        mServerAddress = device.deviceAddress;
-                        connect(device);
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onFailure(int reason) {
-
+            public void onPeersAvailable(WifiP2pDeviceList peers) {
+                Collection<WifiP2pDevice> deviceList = peers.getDeviceList();
+                if (deviceList.size() == 0) {
+                    Log.d(p2pTag, "Size of peer devicelist 0");
+                    return;
+                }
+                updatePeerList(peers);
+                WifiP2pDevice device = deviceList.iterator().next();
+                connect(device);
             }
         });
-
-
     }
-
 
 
     public void connect(WifiP2pDevice device) {
         WifiP2pConfig config = new WifiP2pConfig();
         config.deviceAddress = device.deviceAddress;
+        mServerAddress = device.deviceAddress;
         mManager.connect(mChannel, config, new WifiP2pManager.ActionListener() {
 
             @Override
@@ -131,7 +141,6 @@ public class P2P_Activity extends AppCompatActivity {
         });
 
 
-
         Button rightButton = (Button) findViewById(R.id.button2);
         rightButton.setText("receive data from server");
         rightButton.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +149,7 @@ public class P2P_Activity extends AppCompatActivity {
                 clientListen();
             }
         });
-}
+    }
 
     /* register the broadcast receiver with the intent values to be matched */
     @Override
@@ -157,20 +166,20 @@ public class P2P_Activity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onDestroy() {
         // TO do disconnect wifidirect.
 
         super.onDestroy();
     }
 
     // Attempt to received data through socket
-    public void clientListen(){
+    public void clientListen() {
         Context context = this.getApplicationContext();
         String host = mServerAddress;
         int port = 8888;
         int len;
         Socket socket = new Socket();
-        byte buf[]  = new byte[1024];
+        byte buf[] = new byte[1024];
 
         try {
             /**
@@ -198,8 +207,7 @@ public class P2P_Activity extends AppCompatActivity {
 /**
  * Clean up any open sockets when done
  * transferring or if an exception occurred.
- */
-        finally {
+ */ finally {
             if (socket != null) {
                 if (socket.isConnected()) {
                     try {
@@ -225,10 +233,10 @@ public class P2P_Activity extends AppCompatActivity {
                 serverSocket = new ServerSocket(8888);
                 Socket client = serverSocket.accept();
                 InputStream inputstream = client.getInputStream();
-                while(true){
-                    inputStreamStatus=inputstream.read();
+                while (true) {
+                    inputStreamStatus = inputstream.read();
                     Log.d("P2PStream", String.valueOf(inputStreamStatus));
-                    if(inputStreamStatus<0){
+                    if (inputStreamStatus < 0) {
                         break;
                     }
                 }
@@ -241,7 +249,6 @@ public class P2P_Activity extends AppCompatActivity {
 
             return 1;
         }
-
 
 
     }
