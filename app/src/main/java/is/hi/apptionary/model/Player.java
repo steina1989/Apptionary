@@ -5,4 +5,37 @@ package is.hi.apptionary.model;
  */
 
 public class Player {
+    private String name;
+    private int points;
+    private boolean isDrawer;
+
+    public Player(String name) {
+        this.name = name;
+        this.points = 0;
+        this.isDrawer = false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public boolean isDrawer() {
+        return isDrawer;
+    }
+
+    public void setDrawer(boolean drawer) {
+        isDrawer = drawer;
+    }
 }
