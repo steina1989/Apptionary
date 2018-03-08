@@ -1,4 +1,4 @@
-package is.hi.apptionary;
+package is.hi.apptionary.gui;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,12 +10,15 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import is.hi.apptionary.model.ImagePoint;
+
 /**
  * Created by notandi on 2/5/2018.
  */
 
 public class PaintView extends View {
 
+    private boolean drawMode=true;
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
@@ -26,6 +29,15 @@ public class PaintView extends View {
 
     //canvas
     private Canvas drawCanvas;
+
+    public boolean isDrawMode() {
+        return drawMode;
+    }
+
+    public void setDrawMode(boolean drawMode) {
+        this.drawMode = drawMode;
+    }
+
     //canvas bitmap
     private Bitmap canvasBitmap;
     boolean undoFlagged;
@@ -82,6 +94,28 @@ public class PaintView extends View {
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+    }
+
+    /***
+     * Teiknar á canvas punktinn og teiknar í kjölfarið
+     * leiðina á milli nýja punktsins og síðasta punkts sem fékkst.
+     * @param ip
+     */
+    public void drawPoint(ImagePoint ip) {
+
+        float touchX = ip.getX();
+        float touchY = ip.getY();
+        if(ip.isActionDown()){
+            drawPath.moveTo(touchX, touchY);
+        }else if(ip.isActionMove()){
+            drawPath.lineTo(touchX, touchY);
+        }else if(ip.isActionUp()){
+            drawCanvas.drawPath(drawPath, drawPaint);
+            drawPath.reset();
+        }
+
+        invalidate();
+
     }
 
     @Override
