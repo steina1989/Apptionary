@@ -18,7 +18,7 @@ import static android.database.sqlite.SQLiteDatabase.openOrCreateDatabase;
  */
 
 
-public class RandomWord extends SQLLiteAssetHelper {
+public class RandomWord   {
 
     public static String DB_NAME;
     private static String DB_PATH;
