@@ -1,38 +1,49 @@
 package is.hi.apptionary.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by steina on 8.3.2018.
+ * Simple game object that is the top hierarchical object on the Firebase Server
+ *
  */
 
 public class Game {
     private String id;
     private String currentWord;
-    private List<Player> players = new ArrayList<Player>();
+    private Map<String, Player> players = new HashMap();
     private ImagePoint imagePoint;
     // Time to draw in seconds
-    private int gameDuration;
+    private long endTime;
 
-    public HashMap<String,Game> getGameObject() {
-        // láta undirklasa gera hasmap af sér
-        //láta game gera hashmap af sér
-        // Skila hashpammi
+    public Game(){};
 
-        return new HashMap<String,Game>();
-    };
-
-
-    public int getGameDuration() {
-        return gameDuration;
+    // Special functions
+    public void startGameClock(int gameDuration){
+        this.endTime = System.currentTimeMillis() + gameDuration*1000;
+    }
+    public boolean addPlayer(String name, Player player) {
+        if (this.players.containsKey(name)){
+            return false;
+        }
+        else {
+            this.players.put(name, player);
+            return true;
+        }
+    }
+    public void removePlayer(String name) {
+        this.players.remove(name);
+    }
+    public boolean gameIsOver(){
+        return System.currentTimeMillis() > this.endTime;
     }
 
-    public void setGameDuration(int gameDuration) {
-        this.gameDuration = gameDuration;
-    }
 
+    // Getters / setters
     public String getId() {
         return id;
     }
@@ -49,14 +60,6 @@ public class Game {
         this.currentWord = currentWord;
     }
 
-    public List<Player> getPlayers() {
-        return players;
-    }
-
-    public void setPlayers(List<Player> players) {
-        this.players = players;
-    }
-
     public ImagePoint getImagePoint() {
         return imagePoint;
     }
@@ -65,5 +68,10 @@ public class Game {
         this.imagePoint = imagePoint;
     }
 
-
+    public Map<String, Player> getPlayers() {
+        return players;
+    }
+    public void setPlayers(Map<String, Player> players) {
+        this.players = players;
+    }
 }

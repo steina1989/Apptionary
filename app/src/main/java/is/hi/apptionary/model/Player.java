@@ -9,6 +9,9 @@ public class Player {
     private int points;
     private boolean isDrawer;
 
+    // Needed fo
+    public Player(){};
+
     public Player(String name) {
         this.name = name;
         this.points = 0;

@@ -13,7 +13,7 @@ public class ImagePoint {
     private boolean actionDown;
     private boolean actionMove;
 
-
+    public ImagePoint(){};
     public ImagePoint(float x, float y) {
         this.x = x;
         this.y = y;
