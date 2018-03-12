@@ -1,4 +1,4 @@
-package is.hi.apptionary.gui;
+package is.hi.apptionary.Vidmot;
 
 import android.content.Context;
 import android.graphics.Bitmap;
