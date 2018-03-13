@@ -22,6 +22,7 @@
         <activity android:name=".Vidmot.CreditsActivity" />
         <activity android:name=".Vidmot.PlayerListCreatorActivity" />
         <activity android:name=".Vidmot.PlayerListJoinerActivity"></activity>
+        <activity android:name=".wireless.FireBaseSandbox"></activity>
     </application>
 
 </manifest>
