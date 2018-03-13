@@ -25,7 +25,7 @@ public class TeikniActivity extends AppCompatActivity {
 
     Game currentGame;
     boolean drawMode = false;
-    Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton;
+    Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton, endRoundButton;
     Button[] buttons; //Hnapparnir í pallettunni
     private DatabaseReference dbref, imagePointRef;
 
@@ -113,6 +113,7 @@ public class TeikniActivity extends AppCompatActivity {
 
 
     private void initializePalette() {
+        endRoundButton=(Button) findViewById(R.id.end_round_button);
         undoButton = (Button) findViewById(R.id.undoButton);
         redButton = (Button) findViewById(R.id.redButton);
         blueButton = (Button) findViewById(R.id.blueButton);
@@ -120,7 +121,7 @@ public class TeikniActivity extends AppCompatActivity {
         orangeButton = (Button) findViewById(R.id.orangeButton);
         purpleButton = (Button) findViewById(R.id.purpleButton);
         blackButton = (Button) findViewById(R.id.blackButton);
-        Button[] buttons = new Button[]{undoButton,redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
+        Button[] buttons = new Button[]{endRoundButton,undoButton,redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
         if(!drawMode){
             for(Button b:buttons){
                 b.setVisibility(View.GONE);
