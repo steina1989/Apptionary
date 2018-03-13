@@ -105,8 +105,8 @@ public class PaintView extends View {
      */
     public void drawPoint(ImagePoint ip) {
         setColor(ip.getColor());
-        float touchX = ip.getX();
-        float touchY = ip.getY();
+        float touchX = ip.getX()*drawCanvas.getWidth();
+        float touchY = ip.getY()*drawCanvas.getHeight();
         if(ip.isActionDown()){
             drawPath.moveTo(touchX, touchY);
         }else if(ip.isActionMove()){
@@ -127,8 +127,8 @@ public class PaintView extends View {
             ImagePoint touched = new ImagePoint(); //Fyrir serverinn
             float touchX = event.getX();
             float touchY = event.getY();
-            touched.setX(touchX);
-            touched.setY(touchY);
+            touched.setX(touchX/drawCanvas.getWidth());
+            touched.setY(touchY/drawCanvas.getHeight());
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
                     touched.setActionDown(true);
