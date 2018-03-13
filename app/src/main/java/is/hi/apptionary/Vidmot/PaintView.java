@@ -18,7 +18,7 @@ import is.hi.apptionary.model.ImagePoint;
 
 public class PaintView extends View {
     TeikniActivity teikniActivity;
-    private boolean drawMode=true;
+    private boolean drawMode=false;
     //drawing path
     private Path drawPath;
     //drawing and canvas paint
@@ -122,34 +122,38 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        ImagePoint touched = new ImagePoint(); //Fyrir serverinn
-        float touchX = event.getX();
-        float touchY = event.getY();
-        touched.setX(touchX);
-        touched.setY(touchY);
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                touched.setActionDown(true);
-                drawPath.moveTo(touchX, touchY);
+        if(drawMode){
 
-                break;
-            case MotionEvent.ACTION_MOVE:
-                touched.setActionMove(true);
-                drawPath.lineTo(touchX, touchY);
-                break;
-            case MotionEvent.ACTION_UP:
-                touched.setActionUp(true);
-                drawCanvas.drawPath(drawPath, drawPaint);
+            ImagePoint touched = new ImagePoint(); //Fyrir serverinn
+            float touchX = event.getX();
+            float touchY = event.getY();
+            touched.setX(touchX);
+            touched.setY(touchY);
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    touched.setActionDown(true);
+                    drawPath.moveTo(touchX, touchY);
+
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    touched.setActionMove(true);
+                    drawPath.lineTo(touchX, touchY);
+                    break;
+                case MotionEvent.ACTION_UP:
+                    touched.setActionUp(true);
+                    drawCanvas.drawPath(drawPath, drawPaint);
 
 
-                drawPath.reset();
-                break;
-            default:
-                return false;
+                    drawPath.reset();
+                    break;
+                default:
+                    return false;
+            }
+            invalidate();
+            touched.setColor(paintColor);
+            teikniActivity.broadcastImagePoint(touched);
+
         }
-        invalidate();
-        touched.setColor(paintColor);
-        teikniActivity.broadcastImagePoint(touched);
 
         return true;
     }

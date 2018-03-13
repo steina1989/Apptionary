@@ -37,12 +37,13 @@ public class FireBaseSandbox extends AppCompatActivity {
         // Fetch an instance of our custom database, and since we don't use the database itself,
         // get a reference to it. We can push data onto database references.
         // It seems getInstance only works within a class that extends activity
-        final DatabaseReference dbref = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference dbref = FirebaseDatabase.getInstance().getReference("Games");
 
         // push a new unique entry to the root, and get a reference to it.
         DatabaseReference newUniqueKey = dbref.push();
 
         Game g = new Game();
+        g.setId("leikur");
         g.setCurrentWord("Api");
         g.setImagePoint(new ImagePoint(201,212));
 

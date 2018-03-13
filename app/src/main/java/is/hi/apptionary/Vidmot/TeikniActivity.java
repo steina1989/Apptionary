@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,9 +22,11 @@ import is.hi.apptionary.model.ImagePoint;
 
 public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
+
     Game currentGame;
     boolean drawMode = false;
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton;
+    Button[] buttons; //Hnapparnir í pallettunni
     private DatabaseReference dbref, imagePointRef;
 
     @Override
@@ -34,7 +37,7 @@ public class TeikniActivity extends AppCompatActivity {
         canvas = (PaintView) findViewById(R.id.paintingCanvas);
         canvas.setTeikniActivity(this);
         initializeListeners();
-
+        final TextView currentWord=findViewById(R.id.textToGuess);
         dbref = FirebaseDatabase.getInstance().getReference("Games");
         final String id = "leikur";
 
@@ -48,6 +51,12 @@ public class TeikniActivity extends AppCompatActivity {
                     if (g.getId().equals(id)){
                         imagePointRef = dsp.getRef().child("imagePoint");
                         currentGame = g;
+                        //Uppfæra orðið
+                        if(drawMode){
+                            currentWord.setText(g.getCurrentWord());
+                        }else{
+                            currentWord.setText("");
+                        }
                         startUpdateCanvasListener();
                         return;
 
@@ -111,6 +120,13 @@ public class TeikniActivity extends AppCompatActivity {
         orangeButton = (Button) findViewById(R.id.orangeButton);
         purpleButton = (Button) findViewById(R.id.purpleButton);
         blackButton = (Button) findViewById(R.id.blackButton);
+        Button[] buttons = new Button[]{undoButton,redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
+        if(!drawMode){
+            for(Button b:buttons){
+                b.setVisibility(View.GONE);
+            }
+
+        }
 
 
     }
