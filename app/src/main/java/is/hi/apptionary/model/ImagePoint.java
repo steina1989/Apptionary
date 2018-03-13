@@ -8,7 +8,7 @@ import android.graphics.Color;
 
 public class ImagePoint {
     private float x,y;
-    private String colorString;
+    private int color;
     private boolean actionUp;
     private boolean actionDown;
     private boolean actionMove;
@@ -19,12 +19,12 @@ public class ImagePoint {
         this.y = y;
     }
 
-    public String getColorString() {
-        return colorString;
+    public int getColor() {
+        return color;
     }
 
-    public void setColorString(String colorString) {
-        this.colorString = colorString;
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public boolean isActionUp() {

@@ -22,7 +22,7 @@ import is.hi.apptionary.model.ImagePoint;
 public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
     Game currentGame;
-    boolean drawMode = true;
+    boolean drawMode = false;
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton;
     private DatabaseReference dbref, imagePointRef;
 
@@ -48,6 +48,7 @@ public class TeikniActivity extends AppCompatActivity {
                     if (g.getId().equals(id)){
                         imagePointRef = dsp.getRef().child("imagePoint");
                         currentGame = g;
+                        startUpdateCanvasListener();
                         return;
 
                     }
@@ -62,6 +63,10 @@ public class TeikniActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void startUpdateCanvasListener(){
         if (!drawMode) {
             imagePointRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -85,6 +90,7 @@ public class TeikniActivity extends AppCompatActivity {
 
         }
     }
+
 
     /**
      * Talar við Firebase og uppfærir current point

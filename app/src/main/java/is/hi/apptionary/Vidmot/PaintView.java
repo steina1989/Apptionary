@@ -104,7 +104,7 @@ public class PaintView extends View {
      * @param ip
      */
     public void drawPoint(ImagePoint ip) {
-
+        setColor(ip.getColor());
         float touchX = ip.getX();
         float touchY = ip.getY();
         if(ip.isActionDown()){
@@ -148,6 +148,7 @@ public class PaintView extends View {
                 return false;
         }
         invalidate();
+        touched.setColor(paintColor);
         teikniActivity.broadcastImagePoint(touched);
 
         return true;
@@ -158,6 +159,9 @@ public class PaintView extends View {
         System.out.println("Virkar ekki hahahaha");
     }
 
+    public void setColor(int newColor){
+        drawPaint.setColor(newColor);
+    }
     public void setColor(String newColor) {
         //set color
         invalidate();
