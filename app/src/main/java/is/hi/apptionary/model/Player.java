@@ -9,7 +9,7 @@ public class Player {
     private int points;
     private boolean isDrawer;
 
-    // Needed fo
+    // Needed for firebase
     public Player(){};
 
     public Player(String name) {

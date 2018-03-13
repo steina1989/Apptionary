@@ -13,6 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Map;
+
 import is.hi.apptionary.R;
 import is.hi.apptionary.model.Game;
 import is.hi.apptionary.model.ImagePoint;
@@ -20,9 +22,10 @@ import is.hi.apptionary.model.ImagePoint;
 public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
     Game currentGame;
-    boolean drawMode=false;
+    boolean drawMode = true;
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton;
     private DatabaseReference dbref, imagePointRef;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +35,22 @@ public class TeikniActivity extends AppCompatActivity {
         canvas.setTeikniActivity(this);
         initializeListeners();
 
-        dbref = FirebaseDatabase.getInstance().getReference().equalTo("id","leikur").getRef();
-        //Log.d("firebaseDebug",dbref.getKey());
-        Query query = FirebaseDatabase.getInstance().getReference().child("issue").orderByChild("id").equalTo("leikur");
+        dbref = FirebaseDatabase.getInstance().getReference("Games");
+        final String id = "leikur";
 
-        query.addListenerForSingleValueEvent(new  ValueEventListener() {
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                currentGame=dataSnapshot.getValue(Game.class);
-                if(currentGame==null){
-                    Log.d("firebaseDebug","currentGame  is null");
-                }else{
-                    Log.d("firebaseDebug","id is " + currentGame.getId());
+                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
+
+                    Game g = dsp.getValue(Game.class);
+                    Log.d("firebaseDebug", g.getCurrentWord());
+                    if (g.getId().equals(id)){
+                        imagePointRef = dsp.getRef().child("imagePoint");
+                        currentGame = g;
+                        return;
+
+                    }
                 }
             }
 
@@ -55,17 +62,19 @@ public class TeikniActivity extends AppCompatActivity {
             }
         });
 
-        imagePointRef=dbref.child("imagePoint").getRef();
-        if(!drawMode){
+        if (!drawMode) {
             imagePointRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snap) {
                     ImagePoint ip = snap.getValue(ImagePoint.class);
-                    if(ip==null){
-                        Log.d("firebaseDebug","ip is null");
+                    if (ip == null) {
+                        Log.d("firebaseDebug", "ip is null");
                     }
-                    currentGame.setImagePoint(ip);
-                    canvas.drawPoint(currentGame.getImagePoint());
+                    else{
+                        currentGame.setImagePoint(ip);
+                        canvas.drawPoint(currentGame.getImagePoint());
+                    }
+
                 }
 
                 @Override
@@ -79,10 +88,11 @@ public class TeikniActivity extends AppCompatActivity {
 
     /**
      * Talar við Firebase og uppfærir current point
+     *
      * @param touched
      */
     public void broadcastImagePoint(ImagePoint touched) {
-        dbref.child("ImagePoint").setValue(touched);
+        imagePointRef.setValue(touched);
 
     }
 
@@ -110,7 +120,7 @@ public class TeikniActivity extends AppCompatActivity {
     private void initializeListeners() {
         undoButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                drawMode=!drawMode;
+                drawMode = !drawMode;
 
             }
         });
@@ -123,7 +133,6 @@ public class TeikniActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }
