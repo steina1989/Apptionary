@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="is.hi.apptionary.Vidmot.TeikniActivity"
-    android:background="#FF001188">
+    android:background="@color/colorPrimary"
+    tools:context="is.hi.apptionary.Vidmot.TeikniActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -136,6 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="?attr/colorPrimary"
             android:orientation="vertical">
 
             <Button
