@@ -17,7 +17,7 @@ import is.hi.apptionary.model.ImagePoint;
  */
 
 public class PaintView extends View {
-
+    TeikniActivity teikniActivity;
     private boolean drawMode=true;
     //drawing path
     private Path drawPath;
@@ -37,7 +37,9 @@ public class PaintView extends View {
     public void setDrawMode(boolean drawMode) {
         this.drawMode = drawMode;
     }
-
+    public void setTeikniActivity(TeikniActivity teikn){
+        teikniActivity=teikn;
+    }
     //canvas bitmap
     private Bitmap canvasBitmap;
     boolean undoFlagged;
@@ -120,19 +122,23 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
+        ImagePoint touched = new ImagePoint(); //Fyrir serverinn
         float touchX = event.getX();
         float touchY = event.getY();
+        touched.setX(touchX);
+        touched.setY(touchY);
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                touched.setActionDown(true);
                 drawPath.moveTo(touchX, touchY);
 
                 break;
             case MotionEvent.ACTION_MOVE:
+                touched.setActionMove(true);
                 drawPath.lineTo(touchX, touchY);
                 break;
             case MotionEvent.ACTION_UP:
-
+                touched.setActionUp(true);
                 drawCanvas.drawPath(drawPath, drawPaint);
 
 
@@ -142,6 +148,8 @@ public class PaintView extends View {
                 return false;
         }
         invalidate();
+        teikniActivity.broadcastImagePoint(touched);
+
         return true;
     }
 
