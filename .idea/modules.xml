@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://C:\Users\Lenovo\Vidmot\Apptionary.iml" filepath="C:\Users\Lenovo\Vidmot\Apptionary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Vidmot.iml" filepath="$PROJECT_DIR$/Vidmot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Apptionary.iml" filepath="$PROJECT_DIR$/Apptionary.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

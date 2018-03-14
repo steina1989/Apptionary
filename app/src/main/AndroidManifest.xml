@@ -12,16 +12,25 @@
         <activity android:name=".Vidmot.FrontpageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".Vidmot.NicknameActivity" />
-        <activity android:name=".Vidmot.TeikniActivity" />
+        <activity android:name=".Vidmot.TeikniActivity" android:exported="true">
+        <intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
         <activity android:name=".Vidmot.GamePickerActivity" />
         <activity android:name=".Vidmot.CreditsActivity" />
         <activity android:name=".Vidmot.PlayerListCreatorActivity" />
         <activity android:name=".Vidmot.PlayerListJoinerActivity"></activity>
+        <activity android:name=".wireless.FireBaseSandbox" android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
