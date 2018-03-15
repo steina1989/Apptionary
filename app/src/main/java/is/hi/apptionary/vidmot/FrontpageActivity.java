@@ -38,5 +38,14 @@ public class FrontpageActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
+
+        Button creditsBtn = (Button) findViewById(R.id.joinGameBtn);
+        creditsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplicationContext(), CreditsActivity.class);
+                startActivity(startIntent);
+            }
+        });
     }
 }
