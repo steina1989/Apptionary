@@ -5,8 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import is.hi.apptionary.R;
+import is.hi.apptionary.vinnsla.GameIdGenerator;
 
 public class GamePickerActivity extends AppCompatActivity {
 boolean creating;
@@ -15,6 +17,9 @@ boolean creating;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_picker);
         creating=this.getIntent().getBooleanExtra("creating",false);
+        if(creating){
+          hideButtons(true);
+        }
 
 
 
@@ -39,4 +44,23 @@ boolean creating;
 
         });
     }
+
+    /**
+     * Felur hnappa eftir því hvort verið sé að búa til leik eða joina
+     * @param creating
+     */
+    private void hideButtons(boolean creating) {
+        Button btn;
+        if(creating){
+             btn = (Button) findViewById(R.id.joingameBtn);
+             TextView gameID = findViewById(R.id.game_id_text);
+             gameID.setText(GameIdGenerator.getId());
+
+        }else{
+             btn = (Button) findViewById(R.id.creategameBtn);
+        }
+        btn.setVisibility(View.GONE);
+    }
+
+
 }
