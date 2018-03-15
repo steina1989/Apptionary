@@ -9,17 +9,21 @@ import android.widget.Button;
 import is.hi.apptionary.R;
 
 public class GamePickerActivity extends AppCompatActivity {
-
+boolean creating;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_picker);
+        creating=this.getIntent().getBooleanExtra("creating",false);
+
+
 
         Button createGameBtn = (Button) findViewById(R.id.creategameBtn);
         createGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), PlayerListCreatorActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
+                startIntent.putExtra("drawMode",true);
                 startActivity(startIntent);
             }
         });
@@ -28,7 +32,8 @@ public class GamePickerActivity extends AppCompatActivity {
         joinGameBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), PlayerListJoinerActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
+                startIntent.putExtra("drawMode",false);
                 startActivity(startIntent);
             }
 

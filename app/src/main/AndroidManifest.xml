@@ -15,7 +15,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vidmot.NicknameActivity" />
+
         <activity android:name=".vidmot.TeikniActivity" android:exported="true">
         <intent-filter>
             <category android:name="android.intent.category.LAUNCHER" />
@@ -23,8 +23,6 @@
         </activity>
         <activity android:name=".vidmot.GamePickerActivity" />
         <activity android:name=".vidmot.CreditsActivity" />
-        <activity android:name=".vidmot.PlayerListCreatorActivity" />
-        <activity android:name=".vidmot.PlayerListJoinerActivity"></activity>
         <activity android:name=".wireless.FireBaseSandbox" android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
