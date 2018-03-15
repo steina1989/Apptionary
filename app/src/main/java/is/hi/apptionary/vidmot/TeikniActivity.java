@@ -21,10 +21,11 @@ public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
 
     Game currentGame;
-    boolean drawMode = false;
+    boolean drawMode = true;
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton, endRoundButton;
     Button[] buttons; //Hnapparnir í pallettunni
-    private DatabaseReference dbref, imagePointRef;
+    private String gamePath;//Path á núverandi leik í database
+    private DatabaseReference dbRef, imagePointRef,gameOverRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +37,10 @@ public class TeikniActivity extends AppCompatActivity {
         canvas.setDrawMode(drawMode);
         initializeListeners();
         final TextView currentWord=findViewById(R.id.textToGuess);
-        dbref = FirebaseDatabase.getInstance().getReference("Games");
+        dbRef = FirebaseDatabase.getInstance().getReference("Games"+gamePath);
         final String id = "leikur";
 
-        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
@@ -55,7 +56,7 @@ public class TeikniActivity extends AppCompatActivity {
                         }else{
                             currentWord.setText("");
                         }
-                        startUpdateCanvasListener();
+                        setImagePointListener();
                         return;
 
                     }
@@ -73,7 +74,34 @@ public class TeikniActivity extends AppCompatActivity {
 
     }
 
-    private void startUpdateCanvasListener(){
+    /**
+     * Bregðumst við því þegar leik er lokið.
+     */
+    private void gameOver() {
+    }
+
+
+    private void setGameOverListener(){
+        gameOverRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snap) {
+                boolean gameOver= (boolean) snap.getValue();
+                if(gameOver){
+                    gameOver();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        
+    }
+
+
+
+    private void setImagePointListener(){
         if (!drawMode) {
             imagePointRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -128,6 +156,7 @@ public class TeikniActivity extends AppCompatActivity {
         }
 
 
+
     }
 
     private View.OnClickListener paletteButtonListener = new View.OnClickListener() {
@@ -151,7 +180,14 @@ public class TeikniActivity extends AppCompatActivity {
         orangeButton.setOnClickListener(paletteButtonListener);
         purpleButton.setOnClickListener(paletteButtonListener);
         blackButton.setOnClickListener(paletteButtonListener);
+        endRoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentGame.setGameOver(true);
+                dbRef.setValue(currentGame);
 
+            }
+        });
 
     }
 

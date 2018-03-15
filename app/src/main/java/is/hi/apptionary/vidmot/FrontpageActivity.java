@@ -22,7 +22,7 @@ public class FrontpageActivity extends AppCompatActivity {
         letsGoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), NicknameActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), GamePickerActivity.class);
                 startActivity(startIntent);
             }
         });
