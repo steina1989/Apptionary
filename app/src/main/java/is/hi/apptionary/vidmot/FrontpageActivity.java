@@ -18,20 +18,23 @@ public class FrontpageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_frontpage);
 
-        Button letsGoBtn = (Button) findViewById(R.id.letsGoBtn);
-        letsGoBtn.setOnClickListener(new View.OnClickListener() {
+        Button createBtn = (Button) findViewById(R.id.createGameBtn);
+        createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startIntent = new Intent(getApplicationContext(), NicknameActivity.class);
+
+                Intent startIntent = new Intent(getApplicationContext(), GamePickerActivity.class);
+                startIntent.putExtra("creating",true);
                 startActivity(startIntent);
             }
         });
 
-        Button creditsBtn = (Button) findViewById(R.id.creditsBtn);
-        creditsBtn.setOnClickListener(new View.OnClickListener() {
+        Button joinBtn = (Button) findViewById(R.id.joinGameBtn);
+        joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), CreditsActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(), GamePickerActivity.class);
+                startIntent.putExtra("creating",false);
                 startActivity(startIntent);
             }
         });
