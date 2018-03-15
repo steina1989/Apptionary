@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class Game {
     private String id;
+    private boolean gameOver;
     private String currentWord;
     private Map<String, Player> players = new HashMap();
     private ImagePoint imagePoint;
@@ -47,6 +48,11 @@ public class Game {
     public String getId() {
         return id;
     }
+
+
+    public boolean isGameOver() {return gameOver;}
+
+    public void setGameOver(boolean gameOver) {this.gameOver = gameOver;}
 
     public void setId(String id) {
         this.id = id;
