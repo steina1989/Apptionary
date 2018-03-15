@@ -1,4 +1,4 @@
-package is.hi.apptionary.Vidmot;
+package is.hi.apptionary.vidmot;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;

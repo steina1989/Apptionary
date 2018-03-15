@@ -1,4 +1,4 @@
-package is.hi.apptionary.Vidmot;
+package is.hi.apptionary.vidmot;
 
 import android.content.Context;
 import android.graphics.Bitmap;

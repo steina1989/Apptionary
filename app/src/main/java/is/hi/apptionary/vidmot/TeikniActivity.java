@@ -1,4 +1,4 @@
-package is.hi.apptionary.Vidmot;
+package is.hi.apptionary.vidmot;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,10 +11,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.Map;
 
 import is.hi.apptionary.R;
 import is.hi.apptionary.model.Game;
@@ -36,6 +33,7 @@ public class TeikniActivity extends AppCompatActivity {
         initializePalette();
         canvas = (PaintView) findViewById(R.id.paintingCanvas);
         canvas.setTeikniActivity(this);
+        canvas.setDrawMode(drawMode);
         initializeListeners();
         final TextView currentWord=findViewById(R.id.textToGuess);
         dbref = FirebaseDatabase.getInstance().getReference("Games");

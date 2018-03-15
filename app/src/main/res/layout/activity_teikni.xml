@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     android:background="@color/colorPrimary"
-    tools:context="is.hi.apptionary.Vidmot.TeikniActivity">
+    tools:context="is.hi.apptionary.vidmot.TeikniActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
 
                 <view
                     android:id="@+id/paintingCanvas"
-                    class="is.hi.apptionary.Vidmot.PaintView"
+                    class="is.hi.apptionary.vidmot.PaintView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
