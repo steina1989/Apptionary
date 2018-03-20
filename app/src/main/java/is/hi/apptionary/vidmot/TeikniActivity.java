@@ -29,8 +29,10 @@ public class TeikniActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final String id = "leikur";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teikni);
+        gamePath=this.getIntent().getStringExtra("gameId");
         initializePalette();
         canvas = (PaintView) findViewById(R.id.paintingCanvas);
         canvas.setTeikniActivity(this);
@@ -38,13 +40,12 @@ public class TeikniActivity extends AppCompatActivity {
         initializeListeners();
         final TextView currentWord=findViewById(R.id.textToGuess);
         dbRef = FirebaseDatabase.getInstance().getReference("Games"+gamePath);
-        final String id = "leikur";
-
+        gameOverRef = dbRef.child("gameOver").getRef();
+        setGameOverListener();
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-
                     Game g = dsp.getValue(Game.class);
                     Log.d("firebaseDebug", g.getCurrentWord());
                     if (g.getId().equals(id)){
