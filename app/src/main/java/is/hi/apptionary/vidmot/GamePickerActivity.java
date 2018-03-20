@@ -31,7 +31,7 @@ public class GamePickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_picker);
-        gameName=findViewById(R.id.game_id_text);
+        gameName = findViewById(R.id.game_id_text);
         creating = this.getIntent().getBooleanExtra("creating", false);
         if (creating) {
             hideButtons(true);
@@ -55,30 +55,28 @@ public class GamePickerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //
-                final String gameIdKey = ""+ gameName.getText();
+                final String gameIdKey = "leikur";
                 dbRef = FirebaseDatabase.getInstance().getReference("gameKeys");
-                dbRef.orderByChild(gameIdKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                               // String gameId=(String)dataSnapshot.child(gameIdKey).getValue();
-                                Map<String,String> hm = (Map) dataSnapshot.getValue();
-                                SimpleKeyValuePair pair = dataSnapshot.getValue(SimpleKeyValuePair.class);
-                                String gameId=hm.get(gameIdKey);
+                dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Map<String, String> hm = (Map) dataSnapshot.getValue();
+                        String gameIdValue = hm.get(gameIdKey);
 
-                                Log.d("firebase debug",pair.toString());
-                                Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
-                                startIntent.putExtra("drawMode", false);
-                                startIntent.putExtra("gameId", gameId);
-                                startActivity(startIntent);
+                        Log.d("firebase debug", gameIdValue);
+                        Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
+                        startIntent.putExtra("drawMode", false);
+                        startIntent.putExtra("gameId", gameIdValue);
+                        startActivity(startIntent);
 
-                            }
+                    }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                            }
+                    }
 
-                        });
+                });
 
             }
 
