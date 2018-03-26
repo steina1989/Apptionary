@@ -7,22 +7,7 @@
     tools:context="is.hi.apptionary.vidmot.GamePickerActivity">
 
     <Button
-        android:id="@+id/creategameBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/create_a_game"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/game_id_text"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <Button
-        android:id="@+id/joingameBtn"
+        android:id="@+id/proceedBtn"
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -45,9 +30,9 @@
         android:layout_marginStart="8dp"
         android:contentDescription="The ID of the game you wish to join."
         android:ems="10"
+        android:hint="Game ID:"
         android:inputType="textPersonName"
-        android:text="Game ID:"
-        app:layout_constraintBottom_toTopOf="@+id/joingameBtn"
+        app:layout_constraintBottom_toTopOf="@+id/proceedBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"

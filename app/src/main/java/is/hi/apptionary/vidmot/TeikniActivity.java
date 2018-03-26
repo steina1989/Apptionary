@@ -1,6 +1,7 @@
 package is.hi.apptionary.vidmot;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import is.hi.apptionary.R;
 import is.hi.apptionary.model.Game;
@@ -25,43 +30,43 @@ public class TeikniActivity extends AppCompatActivity {
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton, endRoundButton;
     Button[] buttons; //Hnapparnir í pallettunni
     private String gamePath;//Path á núverandi leik í database
-    private DatabaseReference dbRef, imagePointRef,gameOverRef;
+    private DatabaseReference dbRef, imagePointRef, gameOverRef;
+    private String word = "Fetching random word";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final String id = "leikur";
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teikni);
-        gamePath=this.getIntent().getStringExtra("gameId");
+        getRandomWord();
+        gamePath = this.getIntent().getStringExtra("gamePath");
+        Log.d("onCreateTeikni", "gamePath is: " + gamePath);
         initializePalette();
         canvas = (PaintView) findViewById(R.id.paintingCanvas);
         canvas.setTeikniActivity(this);
         canvas.setDrawMode(drawMode);
         initializeListeners();
-        final TextView currentWord=findViewById(R.id.textToGuess);
-        dbRef = FirebaseDatabase.getInstance().getReference("Games"+gamePath);
+        final TextView currentWord = findViewById(R.id.textToGuess);
+        dbRef = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
         gameOverRef = dbRef.child("gameOver").getRef();
         setGameOverListener();
+
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsp : dataSnapshot.getChildren()) {
-                    Game g = dsp.getValue(Game.class);
-                    Log.d("firebaseDebug", g.getCurrentWord());
-                    if (g.getId().equals(id)){
-                        imagePointRef = dsp.getRef().child("imagePoint");
-                        currentGame = g;
-                        //Uppfæra orðið
-                        if(drawMode){
-                            currentWord.setText(g.getCurrentWord());
-                        }else{
-                            currentWord.setText("");
-                        }
-                        setImagePointListener();
-                        return;
-
-                    }
+                Game g = dataSnapshot.getValue(Game.class);
+                Log.d("firebaseDebug", g.getCurrentWord());
+                imagePointRef = dataSnapshot.getRef().child("imagePoint");
+                currentGame = g;
+                //Uppfæra orðið
+                if (drawMode) {
+                    currentWord.setText(g.getCurrentWord());
+                } else {
+                    currentWord.setText("");
                 }
+                setImagePointListener();
+                return;
+
             }
 
             @Override
@@ -82,12 +87,12 @@ public class TeikniActivity extends AppCompatActivity {
     }
 
 
-    private void setGameOverListener(){
+    private void setGameOverListener() {
         gameOverRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snap) {
-                boolean gameOver= (boolean) snap.getValue();
-                if(gameOver){
+                boolean gameOver = (boolean) snap.getValue();
+                if (gameOver) {
                     gameOver();
                 }
             }
@@ -97,12 +102,11 @@ public class TeikniActivity extends AppCompatActivity {
 
             }
         });
-        
+
     }
 
 
-
-    private void setImagePointListener(){
+    private void setImagePointListener() {
         if (!drawMode) {
             imagePointRef.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -110,8 +114,7 @@ public class TeikniActivity extends AppCompatActivity {
                     ImagePoint ip = snap.getValue(ImagePoint.class);
                     if (ip == null) {
                         Log.d("firebaseDebug", "ip is null");
-                    }
-                    else{
+                    } else {
                         currentGame.setImagePoint(ip);
                         canvas.drawPoint(currentGame.getImagePoint());
                     }
@@ -140,7 +143,7 @@ public class TeikniActivity extends AppCompatActivity {
 
 
     private void initializePalette() {
-        endRoundButton=(Button) findViewById(R.id.end_round_button);
+        endRoundButton = (Button) findViewById(R.id.end_round_button);
         undoButton = (Button) findViewById(R.id.undoButton);
         redButton = (Button) findViewById(R.id.redButton);
         blueButton = (Button) findViewById(R.id.blueButton);
@@ -148,14 +151,13 @@ public class TeikniActivity extends AppCompatActivity {
         orangeButton = (Button) findViewById(R.id.orangeButton);
         purpleButton = (Button) findViewById(R.id.purpleButton);
         blackButton = (Button) findViewById(R.id.blackButton);
-        Button[] buttons = new Button[]{endRoundButton,undoButton,redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
-        if(!drawMode){
-            for(Button b:buttons){
+        Button[] buttons = new Button[]{endRoundButton, undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
+        if (!drawMode) {
+            for (Button b : buttons) {
                 b.setVisibility(View.GONE);
             }
 
         }
-
 
 
     }
@@ -186,6 +188,24 @@ public class TeikniActivity extends AppCompatActivity {
             public void onClick(View v) {
                 currentGame.setGameOver(true);
                 dbRef.setValue(currentGame);
+
+            }
+        });
+
+    }
+
+    private void getRandomWord() {
+        DatabaseReference wordRef = FirebaseDatabase.getInstance().getReference().child("words");
+        wordRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                List<String> hm = (ArrayList) dataSnapshot.getValue();
+                int randomIndex = (int) Math.random() * hm.size();
+                word = hm.get(randomIndex);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
