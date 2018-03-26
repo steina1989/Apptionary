@@ -12,23 +12,27 @@
         <activity android:name=".vidmot.FrontpageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".vidmot.TeikniActivity" android:exported="true">
-        <intent-filter>
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
-        <activity android:name=".vidmot.GamePickerActivity" />
-        <activity android:name=".vidmot.CreditsActivity" />
-        <activity android:name=".wireless.FireBaseSandbox" android:exported="true">
+        <activity
+            android:name=".vidmot.TeikniActivity"
+            android:exported="true">
             <intent-filter>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
+        <activity android:name=".vidmot.GamePickerActivity" />
+        <activity android:name=".vidmot.CreditsActivity" />
+        <activity
+            android:name=".wireless.FireBaseSandbox"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".vidmot.ScoreboardActivity"></activity>
     </application>
 
 </manifest>
