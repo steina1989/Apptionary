@@ -27,13 +27,14 @@ import is.hi.apptionary.vinnsla.GameIdGenerator;
 
 public class GamePickerActivity extends AppCompatActivity {
     boolean creating;
-    TextView gameNameTextView;
+    TextView gameNameTextView,playerNameTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_picker);
         gameNameTextView = findViewById(R.id.game_id_text);
+        playerNameTextView=findViewById(R.id.playerNickname);
         creating = this.getIntent().getBooleanExtra("creating", false);
         final Button proceedBtn = (Button) findViewById(R.id.proceedBtn);
 
@@ -61,8 +62,17 @@ public class GamePickerActivity extends AppCompatActivity {
      */
     private void createGame() {
         String gameName = gameNameTextView.getText().toString();
+        String playerName = playerNameTextView.getText().toString();
+        if(playerName.equals("")){
+            makeToast("Please input your name.");
+            return;
+        }
 
-        Player player = new Player("Creator");
+        if(gameName.equals("")){
+            makeToast("Please input a game name.");
+            return;
+        }
+        Player player = new Player(playerName);
         player.setDrawer(true);
 
         Game game = new Game();
@@ -87,6 +97,16 @@ public class GamePickerActivity extends AppCompatActivity {
      */
     private void joinGame() {
         final String gameName = gameNameTextView.getText().toString();
+        String playerName = playerNameTextView.getText().toString();
+        if(playerName.equals("")){
+            makeToast("Please input your name.");
+            return;
+        }
+
+        if(gameName.equals("")){
+            makeToast("Please input a game name.");
+            return;
+        }
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("gameKeys");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
