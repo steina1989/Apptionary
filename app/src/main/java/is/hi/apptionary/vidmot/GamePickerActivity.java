@@ -65,7 +65,7 @@ public class GamePickerActivity extends AppCompatActivity {
         player.setDrawer(true);
 
         Game game = new Game();
-        game.setCurrentWord("Random orð");
+        game.setCurrentWord("Fetching...");
         game.getPlayers().put(player.getName(), player);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();

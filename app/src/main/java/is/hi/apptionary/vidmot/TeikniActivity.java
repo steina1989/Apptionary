@@ -32,20 +32,17 @@ public class TeikniActivity extends AppCompatActivity {
     Button[] buttons; //Hnapparnir í pallettunni
     private String gamePath;//Path á núverandi leik í database
     private DatabaseReference dbRef, imagePointRef, gameOverRef;
-    private String word = "Fetching random word";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teikni);
-        getRandomWord();
         gamePath = this.getIntent().getStringExtra("gamePath");
         Log.d("onCreateTeikni", "gamePath is: " + gamePath);
         initializePalette();
-        canvas = (PaintView) findViewById(R.id.paintingCanvas);
-        canvas.setTeikniActivity(this);
-        canvas.setDrawMode(drawMode);
+
         initializeListeners();
         final TextView currentWord = findViewById(R.id.textToGuess);
         dbRef = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
@@ -168,7 +165,13 @@ public class TeikniActivity extends AppCompatActivity {
                 b.setVisibility(View.GONE);
             }
 
+        }else{
+            getRandomWord();
         }
+
+        canvas = (PaintView) findViewById(R.id.paintingCanvas);
+        canvas.setTeikniActivity(this);
+        canvas.setDrawMode(drawMode);
 
 
     }
@@ -184,7 +187,6 @@ public class TeikniActivity extends AppCompatActivity {
     private void initializeListeners() {
         undoButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                drawMode = !drawMode;
 
             }
         });
@@ -211,8 +213,12 @@ public class TeikniActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 List<String> hm = (ArrayList) dataSnapshot.getValue();
-                int randomIndex = (int) Math.random() * hm.size();
-                word = hm.get(randomIndex);
+                int randomIndex = (int) (Math.random() * hm.size());
+                String word = hm.get(randomIndex);
+                TextView randomOrd = findViewById(R.id.textToGuess);
+                word = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
+                randomOrd.setText(word);
+
             }
 
             @Override
