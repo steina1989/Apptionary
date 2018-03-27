@@ -1,5 +1,6 @@
 package is.hi.apptionary.vidmot;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,14 @@ public class TeikniActivity extends AppCompatActivity {
         gameOverRef = dbRef.child("gameOver").getRef();
         setGameOverListener();
 
+        endRoundButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                gameOver();
+                gameOverRef.setValue(true);
+            }
+        });
+
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -84,6 +93,8 @@ public class TeikniActivity extends AppCompatActivity {
      * Bregðumst við því þegar leik er lokið.
      */
     private void gameOver() {
+        Intent startIntent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+        startActivity(startIntent);
     }
 
 
