@@ -66,7 +66,7 @@ public class GamePickerActivity extends AppCompatActivity {
 
         Game game = new Game();
         game.setCurrentWord("Fetching...");
-        game.getPlayers().put(player.getName(), player);
+        game.addPlayer(player);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference newUniqueChild = dbRef.child("games").push();
