@@ -37,6 +37,7 @@ public class TeikniActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teikni);
         gamePath = this.getIntent().getStringExtra("gamePath");
