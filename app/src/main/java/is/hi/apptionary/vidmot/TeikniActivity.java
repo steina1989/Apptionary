@@ -13,6 +13,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.Map;
 import is.hi.apptionary.R;
 import is.hi.apptionary.model.Game;
 import is.hi.apptionary.model.ImagePoint;
+import is.hi.apptionary.model.Player;
 
 public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
@@ -57,6 +59,24 @@ public class TeikniActivity extends AppCompatActivity {
                 gameOverRef.setValue(true);
             }
         });
+
+/*
+        // For future reference, this is how we grab a collection of custom objects from Firebase.
+        // dbRef is set on the game object in this example.
+
+        dbRef.child("players").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                GenericTypeIndicator<List<Player>> t = new GenericTypeIndicator<List<Player>>() {};
+                List<Player> players = dataSnapshot.getValue(t);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+*/
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
