@@ -58,9 +58,6 @@ public class ScoreboardActivity extends AppCompatActivity {
                     //players.add(name + "        " + points);
             }
                 arrayAdapterPlayer.notifyDataSetChanged();
-                //Player p =  dataSnapshot.getValue(ArrayList<Player>);
-                //Map<String,String> ble=players.get(0);
-                //Log.d("Tag", "blalala" + plaer);
 
             }
 
