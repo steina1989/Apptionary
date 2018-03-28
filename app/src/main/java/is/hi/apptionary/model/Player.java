@@ -18,6 +18,12 @@ public class Player {
         this.isDrawer = false;
     }
 
+    public String toString() {
+        String nafn = "Name: ";
+        String pointss = "Points: ";
+        return nafn + this.name + pointss + this.points;
+    }
+
     public String getName() {
         return name;
     }

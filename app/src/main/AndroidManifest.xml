@@ -25,7 +25,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".vidmot.GamePickerActivity" />
-        <activity android:name=".vidmot.CreditsActivity" />
         <activity
             android:name=".wireless.FireBaseSandbox"
             android:exported="true">
