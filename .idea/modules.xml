@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Apptionary.iml" filepath="$PROJECT_DIR$/Apptionary.iml" />
       <module fileurl="file://C:\Users\Lenovo\ApptionaryNEWNEW\Apptionary.iml" filepath="C:\Users\Lenovo\ApptionaryNEWNEW\Apptionary.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/ApptionaryNEWNEW.iml" filepath="$PROJECT_DIR$/.idea/ApptionaryNEWNEW.iml" />
+      <module fileurl="file://C:\Users\notandi\OneDrive\Vor2017\HBV2\Forrit\Apptionary\.idea\ApptionaryNEWNEW.iml" filepath="C:\Users\notandi\OneDrive\Vor2017\HBV2\Forrit\Apptionary\.idea\ApptionaryNEWNEW.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
