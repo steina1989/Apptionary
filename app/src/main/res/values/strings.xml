@@ -7,4 +7,6 @@
     <string name="join_a_game">Join a game</string>
     <string name="credits">Credits</string>
     <string name="start_game">Start game</string>
+    <string name="creditText">A pictionary app made for the course HBV601G the spring of 2018.</string>
+    <string name="authors">Authors:</string>
 </resources>
