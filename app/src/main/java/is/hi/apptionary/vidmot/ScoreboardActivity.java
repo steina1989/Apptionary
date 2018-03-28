@@ -53,9 +53,6 @@ public class ScoreboardActivity extends AppCompatActivity {
                     Object name = dataSnapshot.child("name").getValue(Object.class);
                     Object points = dataSnapshot.child("points").getValue(Object.class);
                     players.add(name + "          " + points);
-                    //String name = (String) dataSnapshot.child("name").getValue();
-                    //String points = (String) dataSnapshot.child("points").getValue();
-                    //players.add(name + "        " + points);
             }
                 arrayAdapterPlayer.notifyDataSetChanged();
 
