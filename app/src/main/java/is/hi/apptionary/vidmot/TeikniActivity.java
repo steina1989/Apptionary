@@ -206,9 +206,13 @@ public class TeikniActivity extends AppCompatActivity {
     };
 
     private void initializeListeners() {
+        //Hreinsar canvas og sendir nýjan ImagePoint með allar touch breytur
+        // stilltar sem false, sem hreinsar canvas hjá öllum
         undoButton.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-
+                canvas.clear();
+                ImagePoint ip = new ImagePoint();
+                broadcastImagePoint(ip);
             }
         });
         redButton.setOnClickListener(paletteButtonListener);

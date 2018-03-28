@@ -114,6 +114,8 @@ public class PaintView extends View {
         }else if(ip.isActionUp()){
             drawCanvas.drawPath(drawPath, drawPaint);
             drawPath.reset();
+        }else{
+            clear();
         }
 
         invalidate();
@@ -174,4 +176,8 @@ public class PaintView extends View {
     }
 
 
+    public void clear() {
+        drawCanvas.drawColor(Color.WHITE);
+        invalidate();
+    }
 }
