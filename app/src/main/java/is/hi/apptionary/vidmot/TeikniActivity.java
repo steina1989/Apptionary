@@ -29,7 +29,7 @@ public class TeikniActivity extends AppCompatActivity {
     PaintView canvas;
 
     Game currentGame;
-    boolean drawMode = true;
+    boolean drawMode;
     Button undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton, endRoundButton;
     Button[] buttons; //Hnapparnir í pallettunni
     private String gamePath;//Path á núverandi leik í database
@@ -44,6 +44,7 @@ public class TeikniActivity extends AppCompatActivity {
         setContentView(R.layout.activity_teikni);
         gamePath = this.getIntent().getStringExtra("gamePath");
         Log.d("onCreateTeikni", "gamePath is: " + gamePath);
+        drawMode = this.getIntent().getExtras().getBoolean("drawMode");
         initializePalette();
 
         initializeListeners();
@@ -180,13 +181,17 @@ public class TeikniActivity extends AppCompatActivity {
         orangeButton = (Button) findViewById(R.id.orangeButton);
         purpleButton = (Button) findViewById(R.id.purpleButton);
         blackButton = (Button) findViewById(R.id.blackButton);
-        Button[] buttons = new Button[]{endRoundButton, undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
         if (!drawMode) {
+
+            Button[] buttons = new Button[]{endRoundButton, undoButton, redButton, blueButton, greenButton, orangeButton, purpleButton, blackButton};
+
+            TextView randomOrd = findViewById(R.id.textToGuess);
+            randomOrd.setVisibility(View.GONE);
             for (Button b : buttons) {
                 b.setVisibility(View.GONE);
             }
 
-        }else{
+        } else {
             getRandomWord();
         }
 

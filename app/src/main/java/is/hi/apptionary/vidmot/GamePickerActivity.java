@@ -117,7 +117,7 @@ public class GamePickerActivity extends AppCompatActivity {
                     makeToast("I can't find that game.");
                 } else {
                     Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
-                    startIntent.putExtra("drawMode", true);
+                    startIntent.putExtra("drawMode", false);
                     startIntent.putExtra("gamePath", gamePath);
                     startActivity(startIntent);
                 }

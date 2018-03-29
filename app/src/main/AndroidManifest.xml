@@ -33,6 +33,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".vidmot.ScoreboardActivity"></activity>
+        <activity android:name=".vidmot.CreditsActivity"></activity>
     </application>
 
 </manifest>
