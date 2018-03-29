@@ -3,6 +3,7 @@ package is.hi.apptionary.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,39 +15,27 @@ import java.util.Map;
 
 public class Game {
     private String id;
+    private boolean gameOver;
     private String currentWord;
-    private Map<String, Player> players = new HashMap();
+    private List<Player> players = new LinkedList<>();
     private ImagePoint imagePoint;
     // Time to draw in seconds
     private long endTime;
 
     public Game(){};
 
-    // Special functions
-    public void startGameClock(int gameDuration){
-        this.endTime = System.currentTimeMillis() + gameDuration*1000;
+    public void addPlayer(Player player){
+        this.players.add(player);
     }
-    public boolean addPlayer(String name, Player player) {
-        if (this.players.containsKey(name)){
-            return false;
-        }
-        else {
-            this.players.put(name, player);
-            return true;
-        }
-    }
-    public void removePlayer(String name) {
-        this.players.remove(name);
-    }
-    public boolean gameIsOver(){
-        return System.currentTimeMillis() > this.endTime;
-    }
-
 
     // Getters / setters
     public String getId() {
         return id;
     }
+
+    public boolean isGameOver() {return gameOver;}
+
+    public void setGameOver(boolean gameOver) {this.gameOver = gameOver;}
 
     public void setId(String id) {
         this.id = id;
@@ -68,10 +57,11 @@ public class Game {
         this.imagePoint = imagePoint;
     }
 
-    public Map<String, Player> getPlayers() {
+    public List<Player> getPlayers() {
         return players;
     }
-    public void setPlayers(Map<String, Player> players) {
+
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 }

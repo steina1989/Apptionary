@@ -53,8 +53,8 @@ public class FireBaseSandbox extends AppCompatActivity {
         Player p2 = new Player("Max");
         p2.setPoints(30);
 
-        g.addPlayer(p.getName(), p);
-        g.addPlayer(p2.getName(),p2);
+        g.addPlayer(p);
+        g.addPlayer(p2);
 
         this.game = g;
         // Pushes the game object to the new entry.

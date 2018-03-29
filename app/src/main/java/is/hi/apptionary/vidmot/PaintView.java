@@ -1,4 +1,4 @@
-package is.hi.apptionary.Vidmot;
+package is.hi.apptionary.vidmot;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -25,7 +25,7 @@ public class PaintView extends View {
     private Paint drawPaint, canvasPaint;
 
     //initial color
-    private int paintColor = 0xFF660000;
+    private int paintColor = 0xFF000000;
 
     //canvas
     private Canvas drawCanvas;
@@ -114,6 +114,8 @@ public class PaintView extends View {
         }else if(ip.isActionUp()){
             drawCanvas.drawPath(drawPath, drawPaint);
             drawPath.reset();
+        }else{
+            clear();
         }
 
         invalidate();
@@ -174,4 +176,8 @@ public class PaintView extends View {
     }
 
 
+    public void clear() {
+        drawCanvas.drawColor(Color.WHITE);
+        invalidate();
+    }
 }

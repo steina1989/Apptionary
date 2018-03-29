@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
 
     android:background="@color/colorPrimary"
-    tools:context="is.hi.apptionary.Vidmot.TeikniActivity">
+    tools:context="is.hi.apptionary.vidmot.TeikniActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,28 +33,15 @@
 
                 <view
                     android:id="@+id/paintingCanvas"
-                    class="is.hi.apptionary.Vidmot.PaintView"
+                    class="is.hi.apptionary.vidmot.PaintView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
                     android:layout_weight="1"
                     android:adjustViewBounds="true"
                     android:allowUndo="true"
                     android:background="@android:color/background_light"
                     android:saveEnabled="true" />
-
-                <TextView
-                    android:id="@+id/textToGuess"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginBottom="33dp"
-                    android:layout_marginStart="13dp"
-                    android:layout_weight="10"
-                    android:text="Ninja"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textStyle="normal|bold" />
 
             </FrameLayout>
 
@@ -93,7 +80,7 @@
             <ToggleButton
                 android:id="@+id/greenButton"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:backgroundTint="@android:color/holo_green_dark"
                 android:tag="#ff669900"
                 android:textOff=""
@@ -102,7 +89,7 @@
             <ToggleButton
                 android:id="@+id/orangeButton"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:backgroundTint="@android:color/holo_orange_dark"
                 android:tag="#ffff8800"
                 android:textOff=""
@@ -111,7 +98,7 @@
             <ToggleButton
                 android:id="@+id/purpleButton"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:backgroundTint="@android:color/holo_purple"
                 android:tag="#ffaa66cc"
                 android:textOff=""
@@ -120,7 +107,7 @@
             <ToggleButton
                 android:id="@+id/blackButton"
                 android:layout_width="40dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:backgroundTint="@android:color/black"
                 android:tag="#ff000000"
                 android:textOff=""
@@ -128,8 +115,12 @@
 
             <Button
                 android:id="@+id/undoButton"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content" />
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:elevation="10dp"
+                android:text="@string/clear_btn"
+                android:textSize="10sp"
+                tools:text="Clear" />
         </GridLayout>
 
         <LinearLayout
@@ -150,5 +141,17 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textToGuess"
+        android:layout_width="270dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="529dp"
+        android:layout_weight="10"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textStyle="normal|bold" />
 
 </RelativeLayout>
