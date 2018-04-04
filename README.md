@@ -6,11 +6,11 @@ The goal is guessing which object is being drawn, and after the correct response
 
 The game doesn't end till the fun is dun (*done)!
 
-# Prerequisites
+## Prerequisites
 * Android Sdk installed
 * Android device with developer mode enabled.
 
-# How to install
+## How to install
 ```
 git clone https://github.com/steina1989/Apptionary.git
 cd Apptionary/
