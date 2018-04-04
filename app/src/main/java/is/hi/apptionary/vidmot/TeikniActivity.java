@@ -62,23 +62,6 @@ public class TeikniActivity extends AppCompatActivity {
             }
         });
 
-/*
-        // For future reference, this is how we grab a collection of custom objects from Firebase.
-        // dbRef is set on the game object in this example.
-
-        dbRef.child("players").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<List<Player>> t = new GenericTypeIndicator<List<Player>>() {};
-                List<Player> players = dataSnapshot.getValue(t);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-*/
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
