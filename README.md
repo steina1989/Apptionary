@@ -9,6 +9,7 @@ The game doesn't end till the fun is dun (*done)!
 # Prerequisites
 * Android Sdk installed
 * Android device with developer mode enabled.
+
 # How to install
 ```
 git clone https://github.com/steina1989/Apptionary.git
@@ -24,3 +25,10 @@ Then, attach your android device to a USB port on your computer and run
 ```
 ./gradlew installDebug
 ```
+
+Proceed to invite your friends over for countless hours of great joy and happiness.
+
+# Authors
+* **Daníel Bergmann Guðmundsson** - [Github](https://github.com/dbg10)
+* **Símon Örn Reynisson** - [Github](https://github.com/Durtur)
+* **Steina Dögg Vigfúsdóttir** - [Github](https://github.com/steina1989)
