@@ -1,10 +1,12 @@
 package is.hi.apptionary.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by steina on 8.3.2018.
  */
 
-public class Player {
+public class Player implements Comparable{
     private String name;
     private int points;
     private boolean isDrawer;
@@ -49,4 +51,9 @@ public class Player {
     }
 
 
+    @Override
+    public int compareTo(@NonNull Object o) {
+        Player otherPlayer = (Player) o;
+        return this.points-otherPlayer.getPoints();
+    }
 }

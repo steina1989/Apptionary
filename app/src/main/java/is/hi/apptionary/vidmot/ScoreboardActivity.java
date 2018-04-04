@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,20 +52,22 @@ public class ScoreboardActivity extends AppCompatActivity {
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+            //Búum til raðaðann lista af player objects eftir stigafjölda
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Player player = d.getValue(Player.class);
-                    players.add(player);
+                    Map<String, Player> hmap = (Map) dataSnapshot.getValue();
+                    Log.d("TAG", "BLALALALALALALA " + hmap);
+                    players = new ArrayList<Player>(hmap.values());
+                    Collections.sort(players);
+                    arrayAdapterPlayers.notifyDataSetChanged();
             }
-                arrayAdapterPlayers.notifyDataSetChanged();
 
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+
 
 
 
