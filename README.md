@@ -6,5 +6,21 @@ The goal is guessing which object is being drawn, and after the correct response
 
 The game doesn't end till the fun is dun (*done)!
 
+# Prerequisites
+* Android Sdk installed
+* Android device with developer mode enabled.
 # How to install
-Clone from Android studio and run. 
+```
+git clone https://github.com/steina1989/Apptionary.git
+cd Apptionary/
+```
+Create a local.properties file that contains a path to your Android sdk.
+
+Example:
+```
+sdk.dir=/home/user/Android/Sdk
+```
+Then, attach your android device to a USB port on your computer and run
+```
+./gradlew installDebug
+```
