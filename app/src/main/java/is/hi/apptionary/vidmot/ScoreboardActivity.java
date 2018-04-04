@@ -41,7 +41,7 @@ public class ScoreboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
-        dbRef = new Firebase("https://apptionary-8abf1.firebaseio.com/Games/players");
+
 
         gamePath = this.getIntent().getStringExtra("gamePath");
         dbRef = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath).child("players");
