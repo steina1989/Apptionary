@@ -111,6 +111,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (!drawMode) return;
                 Object o = playerList.getItemAtPosition(position);
                 Player chosenPlayer = (Player) o;
                 if (chosenPlayer.getName().equals(thisPlayer.getName())) {
