@@ -233,6 +233,8 @@ public class TeikniActivity extends AppCompatActivity {
                 TextView randomOrd = findViewById(R.id.textToGuess);
                 word = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
                 randomOrd.setText(word);
+                DatabaseReference currentWordRef = FirebaseDatabase.getInstance().getReference();
+                currentWordRef.child("games").child(gamePath).child("currentWord").setValue(word);
 
             }
 
