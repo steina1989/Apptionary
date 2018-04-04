@@ -57,6 +57,7 @@ public class TeikniActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gameOver();
+
                 gameOverRef.setValue(true);
             }
         });
@@ -113,6 +114,7 @@ public class TeikniActivity extends AppCompatActivity {
      */
     private void gameOver() {
         Intent startIntent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+        startIntent.putExtra("gamePath", gamePath);
         startActivity(startIntent);
     }
 
