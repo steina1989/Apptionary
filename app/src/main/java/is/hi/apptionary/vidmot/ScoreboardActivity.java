@@ -34,6 +34,7 @@ public class ScoreboardActivity extends AppCompatActivity {
     private String gamePath;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,9 +51,8 @@ public class ScoreboardActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
-                    Object name = dataSnapshot.child("name").getValue(Object.class);
-                    Object points = dataSnapshot.child("points").getValue(Object.class);
-                    players.add(name + "          " + points);
+                    Player player = d.getValue(Player.class);
+                    players.add(player.getName() + "          " + player.getPoints());
             }
                 arrayAdapterPlayer.notifyDataSetChanged();
 
