@@ -80,7 +80,7 @@ public class ScoreboardActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
+                final DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
                 ref.child("players").child(playerName).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,6 +89,7 @@ public class ScoreboardActivity extends AppCompatActivity {
                         startIntent.putExtra("drawMode", p.isDrawer());
                         startIntent.putExtra("gamePath", gamePath);
                         startIntent.putExtra("playerName", playerName);
+                        ref.child("gameOver").setValue(false);
                         startActivity(startIntent);
                     }
 
