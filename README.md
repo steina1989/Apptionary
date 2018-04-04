@@ -6,5 +6,5 @@ The goal is guessing which object is being drawed, and after the correct respons
 
 The game doesn't end till the fun is dun (*done)!
 
-#How to install
+# How to install
 Clone from Android studio and run. 
