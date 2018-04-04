@@ -57,27 +57,11 @@ public class TeikniActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 gameOver();
+
                 gameOverRef.setValue(true);
             }
         });
 
-/*
-        // For future reference, this is how we grab a collection of custom objects from Firebase.
-        // dbRef is set on the game object in this example.
-
-        dbRef.child("players").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                GenericTypeIndicator<List<Player>> t = new GenericTypeIndicator<List<Player>>() {};
-                List<Player> players = dataSnapshot.getValue(t);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-*/
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -112,8 +96,15 @@ public class TeikniActivity extends AppCompatActivity {
      * Bregðumst við því þegar leik er lokið.
      */
     private void gameOver() {
-        Intent startIntent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+        Intent startIntent = new Intent(getBaseContext(), ScoreboardActivity.class);
+        startIntent.putExtra("gamePath", gamePath);
+        startIntent.putExtra("drawMode", drawMode);
+        String playerName = this.getIntent().getStringExtra("playerName");
+        startIntent.putExtra("playerName",playerName);
+
         startActivity(startIntent);
+
+
     }
 
 
@@ -148,7 +139,6 @@ public class TeikniActivity extends AppCompatActivity {
                         currentGame.setImagePoint(ip);
                         canvas.drawPoint(currentGame.getImagePoint());
                     }
-
                 }
 
                 @Override
@@ -248,6 +238,8 @@ public class TeikniActivity extends AppCompatActivity {
                 TextView randomOrd = findViewById(R.id.textToGuess);
                 word = word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase();
                 randomOrd.setText(word);
+                DatabaseReference currentWordRef = FirebaseDatabase.getInstance().getReference();
+                currentWordRef.child("games").child(gamePath).child("currentWord").setValue(word);
 
             }
 

@@ -8,10 +8,17 @@
 
     <ListView
         android:id="@+id/Scoreboard"
-        android:layout_width="368dp"
-        android:layout_height="371dp"
+        android:layout_width="397dp"
+        android:layout_height="424dp"
+        android:layout_marginBottom="74dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="100dp"
+        android:paddingBottom="5dp"
+        android:paddingEnd="50dp"
+        android:paddingStart="50dp"
+        android:paddingTop="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/Continue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,9 +29,28 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="143dp"
+        android:layout_marginStart="148dp"
         android:text="@string/continueBtn"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Scoreboard"
-        tools:layout_editor_absoluteX="148dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/whoGuessedTextField"
+        android:layout_width="261dp"
+        android:layout_height="42dp"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="52dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="2dp"
+        android:text="Who guessed it?"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textSize="25dp"
+        app:layout_constraintBottom_toTopOf="@+id/Scoreboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/who_guessed" />
 </android.support.constraint.ConstraintLayout>

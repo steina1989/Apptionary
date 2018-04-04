@@ -17,15 +17,15 @@ public class Game {
     private String id;
     private boolean gameOver;
     private String currentWord;
-    private List<Player> players = new LinkedList<>();
+    private Map<String,Player> players = new HashMap<>();
     private ImagePoint imagePoint;
     // Time to draw in seconds
     private long endTime;
 
     public Game(){};
 
-    public void addPlayer(Player player){
-        this.players.add(player);
+    public void addPlayer(String playerName, Player player){
+        this.players.put(playerName, player);
     }
 
     // Getters / setters
@@ -57,11 +57,11 @@ public class Game {
         this.imagePoint = imagePoint;
     }
 
-    public List<Player> getPlayers() {
+    public Map<String,Player> getPlayers() {
         return players;
     }
 
-    public void setPlayers(List<Player> players) {
+    public void setPlayers(Map<String,  Player> players) {
         this.players = players;
     }
 }

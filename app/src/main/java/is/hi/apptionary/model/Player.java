@@ -1,16 +1,21 @@
 package is.hi.apptionary.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by steina on 8.3.2018.
  */
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private int points;
     private boolean isDrawer;
 
     // Needed for firebase
-    public Player(){};
+    public Player() {
+    }
+
+    ;
 
     public Player(String name) {
         this.name = name;
@@ -19,9 +24,8 @@ public class Player {
     }
 
     public String toString() {
-        String nafn = "Name: ";
-        String pointss = "Points: ";
-        return nafn + this.name + pointss + this.points;
+
+        return this.name + "   " + this.points;
     }
 
     public String getName() {
@@ -46,5 +50,11 @@ public class Player {
 
     public void setDrawer(boolean drawer) {
         isDrawer = drawer;
+    }
+
+
+    @Override
+    public int compareTo(@NonNull Player o) {
+        return o.getPoints() - this.points;
     }
 }
