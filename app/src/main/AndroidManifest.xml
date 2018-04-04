@@ -32,7 +32,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".vidmot.ScoreboardActivity"></activity>
+        <activity android:name=".vidmot.ScoreboardActivity"
+            android:exported="true">
+            <intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".vidmot.CreditsActivity"></activity>
     </application>
 

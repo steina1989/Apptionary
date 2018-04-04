@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -29,9 +30,10 @@ import is.hi.apptionary.model.Player;
 public class ScoreboardActivity extends AppCompatActivity {
 
     private DatabaseReference dbRef;
-    private ArrayList<Object> players = new ArrayList<Object>();
+    private ArrayList<Player> players = new ArrayList<Player>();
     private ListView playerList;
     private String gamePath;
+    private ArrayAdapter<Player> arrayAdapterPlayers;
 
 
 
@@ -39,22 +41,22 @@ public class ScoreboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scoreboard);
-        //dbRef = new Firebase("https://apptionary-8abf1.firebaseio.com/Games/players");
+        dbRef = new Firebase("https://apptionary-8abf1.firebaseio.com/Games/players");
 
         gamePath = this.getIntent().getStringExtra("gamePath");
         dbRef = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath).child("players");
         playerList = (ListView) findViewById(R.id.Scoreboard);
-        final ArrayAdapter<Object> arrayAdapterPlayer = new ArrayAdapter<Object>(this, android.R.layout.simple_list_item_1, players);
-        playerList.setAdapter(arrayAdapterPlayer);
-        Log.d("ble", "ble" + dbRef.toString());
+        populateList();
+
+
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Player player = d.getValue(Player.class);
-                    players.add(player.getName() + "          " + player.getPoints());
+                    players.add(player);
             }
-                arrayAdapterPlayer.notifyDataSetChanged();
+                arrayAdapterPlayers.notifyDataSetChanged();
 
             }
 
@@ -66,7 +68,6 @@ public class ScoreboardActivity extends AppCompatActivity {
 
 
 
-
         Button continueBtn = (Button) findViewById(R.id.Continue);
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,5 +76,23 @@ public class ScoreboardActivity extends AppCompatActivity {
                 startActivity(startIntent);
             }
         });
+    }
+
+
+    private void populateList(){
+
+        arrayAdapterPlayers = new ArrayAdapter<Player>(this, android.R.layout.simple_list_item_1, players);
+        playerList.setAdapter(arrayAdapterPlayers);
+        playerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Object o = playerList.getItemAtPosition(position);
+                Player chosenPlayer = (Player)o;
+                System.out.println(chosenPlayer);
+
+
+            }
+        });
+
     }
 }

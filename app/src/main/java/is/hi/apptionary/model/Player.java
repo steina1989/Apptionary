@@ -47,4 +47,6 @@ public class Player {
     public void setDrawer(boolean drawer) {
         isDrawer = drawer;
     }
+
+
 }
