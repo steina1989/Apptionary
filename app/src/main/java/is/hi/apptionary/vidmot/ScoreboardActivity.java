@@ -79,18 +79,18 @@ public class ScoreboardActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
+                final Intent startIntent = new Intent(getBaseContext(), TeikniActivity.class);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
                 ref.child("players").child(playerName).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-
                         Player p = dataSnapshot.getValue(Player.class);
                         startIntent.putExtra("drawMode",p.isDrawer());
                         startIntent.putExtra("gamePath", gamePath);
                         startIntent.putExtra("playerName", playerName);
-                        startIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
+                        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(startIntent);
+                        finish();
                     }
 
                     @Override

@@ -96,13 +96,14 @@ public class TeikniActivity extends AppCompatActivity {
      * Bregðumst við því þegar leik er lokið.
      */
     private void gameOver() {
-        Intent startIntent = new Intent(getApplicationContext(), ScoreboardActivity.class);
+        Intent startIntent = new Intent(getBaseContext(), ScoreboardActivity.class);
         startIntent.putExtra("gamePath", gamePath);
         startIntent.putExtra("drawMode", drawMode);
         String playerName = this.getIntent().getStringExtra("playerName");
         startIntent.putExtra("playerName",playerName);
-        finish();
+
         startActivity(startIntent);
+        finish();
 
 
     }
