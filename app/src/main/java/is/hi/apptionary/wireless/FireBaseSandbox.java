@@ -53,13 +53,12 @@ public class FireBaseSandbox extends AppCompatActivity {
         Player p2 = new Player("Max");
         p2.setPoints(30);
 
-        g.addPlayer(p);
-        g.addPlayer(p2);
+        g.addPlayer("Gunnar",p);
+        g.addPlayer("Max", p2);
 
         this.game = g;
         // Pushes the game object to the new entry.
         newUniqueKey.setValue(g);
-
 
         // We can listen to changes to our newly pushed game object.
         newUniqueKey.addValueEventListener(new ValueEventListener() {

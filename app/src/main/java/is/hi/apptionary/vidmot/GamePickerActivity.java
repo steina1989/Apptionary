@@ -77,7 +77,7 @@ public class GamePickerActivity extends AppCompatActivity {
 
         Game game = new Game();
         game.setCurrentWord("Fetching...");
-        game.addPlayer(player);
+        game.addPlayer(playerName,player);
 
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference();
         final DatabaseReference newUniqueChild = dbRef.child("games").push();
@@ -107,6 +107,7 @@ public class GamePickerActivity extends AppCompatActivity {
             makeToast("Please input a game name.");
             return;
         }
+
         DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("gameKeys");
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
