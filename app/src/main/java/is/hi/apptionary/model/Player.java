@@ -6,13 +6,16 @@ import android.support.annotation.NonNull;
  * Created by steina on 8.3.2018.
  */
 
-public class Player implements Comparable<Player>{
+public class Player implements Comparable<Player> {
     private String name;
     private int points;
     private boolean isDrawer;
 
     // Needed for firebase
-    public Player(){};
+    public Player() {
+    }
+
+    ;
 
     public Player(String name) {
         this.name = name;
@@ -50,10 +53,8 @@ public class Player implements Comparable<Player>{
     }
 
 
-
-
     @Override
     public int compareTo(@NonNull Player o) {
-        return this.points-o.getPoints();
+        return o.getPoints() - this.points;
     }
 }

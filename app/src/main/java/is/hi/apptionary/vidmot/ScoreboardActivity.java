@@ -56,6 +56,7 @@ public class ScoreboardActivity extends AppCompatActivity {
             @Override
             //Búum til raðaðan lista af player objects eftir stigafjölda
             public void onDataChange(DataSnapshot dataSnapshot) {
+                players.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Player player = snapshot.getValue(Player.class);
                     if (player.getName().equals(playerName)) {
