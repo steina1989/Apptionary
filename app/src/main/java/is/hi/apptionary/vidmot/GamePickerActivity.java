@@ -2,6 +2,7 @@ package is.hi.apptionary.vidmot;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -97,7 +99,7 @@ public class GamePickerActivity extends AppCompatActivity {
      */
     private void joinGame() {
         final String gameName = gameNameTextView.getText().toString();
-        String playerName = playerNameTextView.getText().toString();
+        final String playerName = playerNameTextView.getText().toString();
         if(playerName.equals("")){
             makeToast("Please input your name.");
             return;
@@ -107,9 +109,8 @@ public class GamePickerActivity extends AppCompatActivity {
             makeToast("Please input a game name.");
             return;
         }
-
-        DatabaseReference dbRef = FirebaseDatabase.getInstance().getReference("gameKeys");
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference gameKeyRef = FirebaseDatabase.getInstance().getReference("gameKeys");
+        gameKeyRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Map<String, String> hm = (Map) dataSnapshot.getValue();
@@ -117,6 +118,8 @@ public class GamePickerActivity extends AppCompatActivity {
                 if (gamePath == null) {
                     makeToast("I can't find that game.");
                 } else {
+                    DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("games");
+                    playerRef.child(gamePath).child("players").child(playerName).setValue(new Player(playerName));
                     Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
                     startIntent.putExtra("drawMode", false);
                     startIntent.putExtra("gamePath", gamePath);
