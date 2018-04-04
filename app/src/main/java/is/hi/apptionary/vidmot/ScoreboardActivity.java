@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-
+import android.widget.TextView;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,18 +29,20 @@ import is.hi.apptionary.R;
 import is.hi.apptionary.model.Player;
 
 public class ScoreboardActivity extends AppCompatActivity {
-
     private DatabaseReference dbRef;
     private ArrayList<Player> players = new ArrayList<Player>();
     private ListView playerList;
-    private String gamePath;
+    private String gamePath,playerName;
+    private boolean drawMode;
+    Player thisPlayer;
     private ArrayAdapter<Player> arrayAdapterPlayers;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playerName=this.getIntent().getStringExtra("playerName");
+        drawMode=this.getIntent().getBooleanExtra("drawMode",false);
         setContentView(R.layout.activity_scoreboard);
 
 
@@ -52,13 +54,17 @@ public class ScoreboardActivity extends AppCompatActivity {
 
         dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            //Búum til raðaðann lista af player objects eftir stigafjölda
+            //Búum til raðaðan lista af player objects eftir stigafjölda
             public void onDataChange(DataSnapshot dataSnapshot) {
-                    Map<String, Player> hmap = (Map) dataSnapshot.getValue();
-                    Log.d("TAG", "BLALALALALALALA " + hmap);
-                    players = new ArrayList<Player>(hmap.values());
-                    Collections.sort(players);
-                    arrayAdapterPlayers.notifyDataSetChanged();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Player player = snapshot.getValue(Player.class);
+                    if(player.getName().equals(playerName)){
+                        thisPlayer=player;
+                    }
+                    players.add(player);
+                }
+                Collections.sort(players);
+                arrayAdapterPlayers.notifyDataSetChanged();
             }
 
 
@@ -69,20 +75,35 @@ public class ScoreboardActivity extends AppCompatActivity {
         });
 
 
-
-
         Button continueBtn = (Button) findViewById(R.id.Continue);
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
-                startActivity(startIntent);
+                final Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
+                ref.child("players").child(playerName).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        Player p = dataSnapshot.getValue(Player.class);
+                        startIntent.putExtra("drawMode",p.isDrawer());
+                        startIntent.putExtra("gamePath", gamePath);
+                        startIntent.putExtra("playerName", playerName);
+                        startActivity(startIntent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         });
     }
 
 
-    private void populateList(){
+    private void populateList() {
 
         arrayAdapterPlayers = new ArrayAdapter<Player>(this, android.R.layout.simple_list_item_1, players);
         playerList.setAdapter(arrayAdapterPlayers);
@@ -90,12 +111,37 @@ public class ScoreboardActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = playerList.getItemAtPosition(position);
-                Player chosenPlayer = (Player)o;
-                System.out.println(chosenPlayer);
+                Player chosenPlayer = (Player) o;
+                if(chosenPlayer.getName().equals(thisPlayer.getName())){
+                    return;
+                }
+                chooseWinner(chosenPlayer);
 
 
             }
         });
+
+    }
+
+    private void chooseWinner(Player pl) {
+        pl.setPoints(pl.getPoints() + 10);
+        DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("games");
+        pl.setDrawer(true);
+        playerRef.child(gamePath).child("players").child(pl.getName()).setValue(pl);
+
+        arrayAdapterPlayers.notifyDataSetChanged();
+        TextView whoGuessed = findViewById(R.id.whoGuessedTextField);
+        whoGuessed.setText("");
+        findAndUpdateNextDrawer();
+
+    }
+
+    private void findAndUpdateNextDrawer() {
+        if(drawMode){
+            DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("games");
+            thisPlayer.setDrawer(false);
+            playerRef.child(gamePath).child("players").child(playerName).setValue(thisPlayer);
+        }
 
     }
 }

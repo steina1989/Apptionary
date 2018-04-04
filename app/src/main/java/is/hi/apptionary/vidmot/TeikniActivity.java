@@ -98,7 +98,11 @@ public class TeikniActivity extends AppCompatActivity {
     private void gameOver() {
         Intent startIntent = new Intent(getApplicationContext(), ScoreboardActivity.class);
         startIntent.putExtra("gamePath", gamePath);
+        startIntent.putExtra("drawMode", drawMode);
+        String playerName = this.getIntent().getStringExtra("playerName");
+        startIntent.putExtra("playerName",playerName);
         startActivity(startIntent);
+    
     }
 
 

@@ -91,6 +91,7 @@ public class GamePickerActivity extends AppCompatActivity {
         Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
         startIntent.putExtra("drawMode", true);
         startIntent.putExtra("gamePath", newUniqueChild.getKey());
+        startIntent.putExtra("playerName", playerName);
         startActivity(startIntent);
     }
 
@@ -123,6 +124,7 @@ public class GamePickerActivity extends AppCompatActivity {
                     Intent startIntent = new Intent(getApplicationContext(), TeikniActivity.class);
                     startIntent.putExtra("drawMode", false);
                     startIntent.putExtra("gamePath", gamePath);
+                    startIntent.putExtra("playerName", playerName);
                     startActivity(startIntent);
                 }
             }

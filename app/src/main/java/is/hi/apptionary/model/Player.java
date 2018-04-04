@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
  * Created by steina on 8.3.2018.
  */
 
-public class Player implements Comparable{
+public class Player implements Comparable<Player>{
     private String name;
     private int points;
     private boolean isDrawer;
@@ -21,9 +21,8 @@ public class Player implements Comparable{
     }
 
     public String toString() {
-        String nafn = "Name: ";
-        String pointss = "Points: ";
-        return nafn + this.name + pointss + this.points;
+
+        return this.name + "   " + this.points;
     }
 
     public String getName() {
@@ -51,9 +50,10 @@ public class Player implements Comparable{
     }
 
 
+
+
     @Override
-    public int compareTo(@NonNull Object o) {
-        Player otherPlayer = (Player) o;
-        return this.points-otherPlayer.getPoints();
+    public int compareTo(@NonNull Player o) {
+        return this.points-o.getPoints();
     }
 }
