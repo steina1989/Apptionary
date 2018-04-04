@@ -103,7 +103,6 @@ public class TeikniActivity extends AppCompatActivity {
         startIntent.putExtra("playerName",playerName);
 
         startActivity(startIntent);
-        finish();
 
 
     }

@@ -32,7 +32,7 @@ public class ScoreboardActivity extends AppCompatActivity {
     private DatabaseReference dbRef;
     private ArrayList<Player> players = new ArrayList<Player>();
     private ListView playerList;
-    private String gamePath,playerName;
+    private String gamePath, playerName;
     private boolean drawMode;
     Player thisPlayer;
     private ArrayAdapter<Player> arrayAdapterPlayers;
@@ -41,8 +41,8 @@ public class ScoreboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        playerName=this.getIntent().getStringExtra("playerName");
-        drawMode=this.getIntent().getBooleanExtra("drawMode",false);
+        playerName = this.getIntent().getStringExtra("playerName");
+        drawMode = this.getIntent().getBooleanExtra("drawMode", false);
         setContentView(R.layout.activity_scoreboard);
 
 
@@ -52,14 +52,14 @@ public class ScoreboardActivity extends AppCompatActivity {
         populateList();
 
 
-        dbRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        dbRef.addValueEventListener(new ValueEventListener() {
             @Override
             //Búum til raðaðan lista af player objects eftir stigafjölda
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Player player = snapshot.getValue(Player.class);
-                    if(player.getName().equals(playerName)){
-                        thisPlayer=player;
+                    if (player.getName().equals(playerName)) {
+                        thisPlayer = player;
                     }
                     players.add(player);
                 }
@@ -79,18 +79,16 @@ public class ScoreboardActivity extends AppCompatActivity {
         continueBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final Intent startIntent = new Intent(getBaseContext(), TeikniActivity.class);
                 DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("games").child(gamePath);
                 ref.child("players").child(playerName).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        Intent startIntent = new Intent(getBaseContext(), TeikniActivity.class);
                         Player p = dataSnapshot.getValue(Player.class);
-                        startIntent.putExtra("drawMode",p.isDrawer());
+                        startIntent.putExtra("drawMode", p.isDrawer());
                         startIntent.putExtra("gamePath", gamePath);
                         startIntent.putExtra("playerName", playerName);
-                        startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(startIntent);
-                        finish();
                     }
 
                     @Override
@@ -113,7 +111,7 @@ public class ScoreboardActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object o = playerList.getItemAtPosition(position);
                 Player chosenPlayer = (Player) o;
-                if(chosenPlayer.getName().equals(thisPlayer.getName())){
+                if (chosenPlayer.getName().equals(thisPlayer.getName())) {
                     return;
                 }
                 chooseWinner(chosenPlayer);
@@ -138,7 +136,7 @@ public class ScoreboardActivity extends AppCompatActivity {
     }
 
     private void findAndUpdateNextDrawer() {
-        if(drawMode){
+        if (drawMode) {
             DatabaseReference playerRef = FirebaseDatabase.getInstance().getReference("games");
             thisPlayer.setDrawer(false);
             playerRef.child(gamePath).child("players").child(playerName).setValue(thisPlayer);
