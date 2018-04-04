@@ -101,8 +101,10 @@ public class TeikniActivity extends AppCompatActivity {
         startIntent.putExtra("drawMode", drawMode);
         String playerName = this.getIntent().getStringExtra("playerName");
         startIntent.putExtra("playerName",playerName);
+        finish();
         startActivity(startIntent);
-    
+
+
     }
 
 
@@ -137,7 +139,6 @@ public class TeikniActivity extends AppCompatActivity {
                         currentGame.setImagePoint(ip);
                         canvas.drawPoint(currentGame.getImagePoint());
                     }
-
                 }
 
                 @Override

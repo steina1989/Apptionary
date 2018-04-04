@@ -89,6 +89,7 @@ public class ScoreboardActivity extends AppCompatActivity {
                         startIntent.putExtra("drawMode",p.isDrawer());
                         startIntent.putExtra("gamePath", gamePath);
                         startIntent.putExtra("playerName", playerName);
+                        startIntent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
                         startActivity(startIntent);
                     }
 
