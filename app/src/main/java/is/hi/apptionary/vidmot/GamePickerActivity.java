@@ -25,7 +25,6 @@ import java.util.Map;
 import is.hi.apptionary.R;
 import is.hi.apptionary.model.Game;
 import is.hi.apptionary.model.Player;
-import is.hi.apptionary.vinnsla.GameIdGenerator;
 
 public class GamePickerActivity extends AppCompatActivity {
     boolean creating;

@@ -19,8 +19,6 @@ public class Game {
     private String currentWord;
     private Map<String,Player> players = new HashMap<>();
     private ImagePoint imagePoint;
-    // Time to draw in seconds
-    private long endTime;
 
     public Game(){};
 
