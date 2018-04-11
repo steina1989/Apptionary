@@ -30,7 +30,7 @@ Proceed to invite your friends over for countless hours of great joy and happine
 
 ## Alternative install
 1. Enable "Allow installation of apps from sources other than the Play Store" on your device.
-2. Visit [this link](https://notendur.hi.is/sdv6/app-debug.apk) on your device to download and install the APK.
+2. Visit [this link](https://notendur.hi.is/sdv6/hugbo2/app-release.apk) on your device to download and install the APK.
 
 This build will not be consistently updated.
 

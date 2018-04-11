@@ -12,7 +12,6 @@
         <activity android:name=".vidmot.FrontpageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -25,13 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".vidmot.GamePickerActivity" />
-        <activity
-            android:name=".wireless.FireBaseSandbox"
-            android:exported="true">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".vidmot.ScoreboardActivity"
             android:exported="true">
         </activity>
